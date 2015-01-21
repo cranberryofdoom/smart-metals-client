@@ -1,0 +1,61 @@
+.fa-times {
+	&:hover {
+		cursor: pointer;
+	}
+}
+// Upon submit, show error validations
+form.ng-submitted {
+	.ng-invalid {
+		&:extend(input.ng-touched.ng-invalid all);
+	}
+}
+// On invalid inputs and textareas show danger icon and validations
+input.ng-touched.ng-invalid, textarea.ng-touched.ng-invalid {
+	border: 1px solid @state-danger-text;
+	&~ icons {
+		i.fa-times {
+			display: inline;
+		}
+		i.fa-check {
+			display: none;
+		}
+	}
+}
+// On valid inputs and textareas show success icon and validations
+input.ng-touched.ng-valid, textarea.ng-touched.ng-valid {
+	border: 1px solid @state-success-text;
+	&~ icons {
+		i.fa-times {
+			display: none;
+		}
+		i.fa-check {
+			display: inline;
+		}
+	}
+}
+// Upon form initialization, don't show any validations
+input.ng-untouched, textarea.ng-untouched {
+	&~ icons {
+		i.fa-times {
+			display: none;
+		}
+		i.fa-check {
+			display: none;
+		}
+	}
+}
+.form-group {
+	// Remove all box shadows
+	input.form-control {
+		&:focus {
+			box-shadow: none;
+		}
+	}
+	// Icons are colored to their respective validations
+	i.fa-times, errors {
+		color: @state-danger-text;
+	}
+	i.fa-check {
+		color: @state-success-text;
+	}
+}
