@@ -1,6 +1,5 @@
 angular.module('SmartMetals.logIn', [
   'ui.router',
-  'plusOne',
   'restangular'
 ])
 
@@ -54,7 +53,7 @@ angular.module('SmartMetals.logIn', [
   // Method that sends the HTTP request
   authService.logIn = function(credentials) {
     // Get the token
-    return Restangular.all('/login').post(credentials).then(function(res) {
+    return Restangular.all('/auth/login').post(credentials).then(function(res) {
       $window.localStorage.token = res.token;
       return res.token;
     }, function(res) {

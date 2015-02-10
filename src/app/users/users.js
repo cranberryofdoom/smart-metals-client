@@ -1,6 +1,5 @@
 angular.module('SmartMetals.users', [
   'ui.router',
-  'plusOne',
   'restangular'
 ])
 
