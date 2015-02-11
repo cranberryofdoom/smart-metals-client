@@ -1,9 +1,11 @@
 angular.module('SmartMetals', [
   'templates-app',
+  'SmartMetals.router',
   'SmartMetals.navbar',
   'SmartMetals.logIn',
   'SmartMetals.alerts',
   'SmartMetals.users',
+  'SmartMetals.accounts',
   'ui.router',
   'restangular',
   'formValidation'
@@ -28,7 +30,7 @@ angular.module('SmartMetals', [
 })
 
 .run(function run($rootScope, $window, Restangular, $state) {
-  var token = $window.localStorage.token;
+  $rootScope.token = $window.localStorage.token;
   $rootScope.show = false;
   $rootScope.currentUser = {
     email: null,
@@ -38,19 +40,30 @@ angular.module('SmartMetals', [
     role: null,
     account_id: null
   };
-  if (token !== undefined) {
+  if ($rootScope.token !== undefined) {
     Restangular.one('users').customGET('current', {
-      token: token
+      token: $rootScope.token
     }).then(function(res) {
+      // The server is able to find a current user with the
+      // saved token. Save the retrieved current user and
+      // make it accessible to all of the controllers.
       $rootScope.currentUser = {
         email: res.email,
-        id: res.id
+        id: res.id,
+        firstname: res.firstname,
+        lastname: res.lastname,
+        role: res.role,
+        account_id: res.account_id
       };
       $rootScope.show = true;
-      $state.go('users');
+      $state.go('accounts');
     }, function(res) {
+      // The server was not able to find the current user with
+      // the token. Which means the token is either expired or just
+      // bad. Delete the token.
       delete $window.localStorage.token;
       $rootScope.show = false;
+      $state.go('logIn');
     });
 
   } else {
@@ -66,9 +79,6 @@ angular.module('SmartMetals', [
       $scope.pageTitle = toState.data.pageTitle + ' | SmartMetals';
     }
   });
-
-  // If there is a token, get the information about the user
-  // and assign it to the currentUser
 
   $scope.setCurrentUser = function(user) {
     $rootScope.currentUser = user;

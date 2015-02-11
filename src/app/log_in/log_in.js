@@ -3,28 +3,13 @@ angular.module('SmartMetals.logIn', [
   'restangular'
 ])
 
-.config(['$stateProvider', function config($stateProvider) {
-  $stateProvider.state('logIn', {
-    url: '/log_in',
-    views: {
-      "main": {
-        templateUrl: 'log_in/log_in.tpl.html'
-      }
-    },
-    data: {
-      pageTitle: 'Log In'
-    }
-  });
-}])
-
 .controller('LogInCtrl', function LogInController($scope, $rootScope, $state, AuthService, Restangular, ServerErrors) {
-  var logInCtrl = this;
-  logInCtrl.user = {
+  $scope.user = {
     email: '',
     password: ''
   };
 
-  logInCtrl.logIn = function(user, form) {
+  $scope.logIn = function(user, form) {
 
     // Check if form is vaild first
     if (form.$valid) {

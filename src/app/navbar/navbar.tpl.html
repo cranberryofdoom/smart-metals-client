@@ -1,28 +1,25 @@
-<div ng-show="AppCtrl.show">
+<div ng-show="show">
   <ul class="nav nav-pills">
     <li class="pull-left">
-      <a href="#">{{AppCtrl.currentUser.email}}</a>
+      <a href="#">{{currentUser.email}}</a>
     </li>
     <li class="pull-right">
       <a ng-click="AppCtrl.signOut()">Sign Out</a>
     </li>
   </ul>
   <ul class="nav nav-tabs">
-    <li>
-      <a>Dashboard</a>
+    <li ui-sref-active-eq="active">
+      <a ui-sref="accounts">Accounts</a>
     </li>
     <li ui-sref-active-eq="active">
       <a ui-sref="users">Users</a>
     </li>
     <li ui-sref-active-eq="active">
-      <a href="/#/orders">Orders</a>
-    </li>
-    <li ui-sref-active-eq="active">
-      <a ui-sref="items">Items</a>
+      <a ui-sref="dashboard">Dashboard</a>
     </li>
   </ul>
 </div>
-<div ng-hide="AppCtrl.show">
+<div ng-hide="show">
   <h1>Sign In</h1>
   <hr>
 </div>

@@ -3,20 +3,6 @@ angular.module('SmartMetals.users', [
   'restangular'
 ])
 
-.config(function config($stateProvider) {
-  $stateProvider.state('users', {
-    url: '/users',
-    views: {
-      "main": {
-        templateUrl: 'users/users.tpl.html'
-      }
-    },
-    data: {
-      pageTitle: 'Users'
-    }
-  });
-})
-
 .controller('UsersCtrl', function UsersController($http, $rootScope, Restangular, ServerErrors) {
 
   // Intitalize default models

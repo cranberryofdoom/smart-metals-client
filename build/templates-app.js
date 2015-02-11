@@ -1,4 +1,42 @@
-angular.module('templates-app', ['alerts/alerts.tpl.html', 'log_in/log_in.tpl.html', 'navbar/navbar.tpl.html', 'users/users.tpl.html']);
+angular.module('templates-app', ['accounts/accounts.tpl.html', 'alerts/alerts.tpl.html', 'log_in/log_in.tpl.html', 'navbar/navbar.tpl.html', 'users/users.tpl.html']);
+
+angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("accounts/accounts.tpl.html",
+    "<div class=\"content\" ng-controller=\"AccountsCtrl as accountsCtrl\">\n" +
+    "	<accordion>\n" +
+    "		<accordion-group heading=\"Create Account\" is-open=\"accountsCtrl.open\">\n" +
+    "			<form role=\"form\" name=\"CreateAccountForm\" ng-submit=\"accountsCtrl.createAccount(accountsCtrl.account, CreateAccountForm)\" novalidate>\n" +
+    "				<!-- Name -->\n" +
+    "				<div class=\"form-group has-feedback\" showError>\n" +
+    "					<label for=\"name\">Name</label>\n" +
+    "					<input ng-model=\"accountsCtrl.account.name\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"name\" type=\"text\" class=\"form-control\" placeholder=\"Name\" required>\n" +
+    "					<icons></icons>\n" +
+    "					<!-- Errors -->\n" +
+    "					<errors>\n" +
+    "						<p class=\"text-danger\" ng-show=\"CreateAccountForm.name.$error.required\">Name required.</p>\n" +
+    "						<p class=\"text-danger\" ng-show=\"CreateAccountForm.name.$error.serverMessages\" ng-repeat=\"message in CreateAccountForm.name.$error.serverMessages\">{{message}}</p>\n" +
+    "					</errors>\n" +
+    "				</div>\n" +
+    "				<!-- Submit Button -->\n" +
+    "				<button type=\"submit\" class=\"btn btn-default\">Submit</button>\n" +
+    "				<!-- Cancel Button -->\n" +
+    "				<button type=\"button\" class=\"pull-right btn btn-default\" ng-click=\"accountsCtrl.resetForm(CreateAccountForm)\">Cancel</button>\n" +
+    "			</form>\n" +
+    "		</accordion-group>\n" +
+    "	</accordion>\n" +
+    "\n" +
+    "	<ul class=\"list-group\">\n" +
+    "		<div class=\"list-group-item\">\n" +
+    "			<h3 class=\"list-group-item-heading\">Accounts</h3>\n" +
+    "		</div>\n" +
+    "		<li class=\"list-group-item\" ng-repeat=\"account in accountsCtrl.accounts\">\n" +
+    "			{{account.name}}\n" +
+    "			<!-- <i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, $index)\"></i> -->\n" +
+    "		</li>\n" +
+    "	</ul>\n" +
+    "</div>\n" +
+    "");
+}]);
 
 angular.module("alerts/alerts.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("alerts/alerts.tpl.html",
@@ -41,31 +79,28 @@ angular.module("log_in/log_in.tpl.html", []).run(["$templateCache", function($te
 
 angular.module("navbar/navbar.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("navbar/navbar.tpl.html",
-    "<div ng-show=\"AppCtrl.show\">\n" +
+    "<div ng-show=\"show\">\n" +
     "  <ul class=\"nav nav-pills\">\n" +
     "    <li class=\"pull-left\">\n" +
-    "      <a href=\"#\">{{AppCtrl.currentUser.email}}</a>\n" +
+    "      <a href=\"#\">{{currentUser.email}}</a>\n" +
     "    </li>\n" +
     "    <li class=\"pull-right\">\n" +
     "      <a ng-click=\"AppCtrl.signOut()\">Sign Out</a>\n" +
     "    </li>\n" +
     "  </ul>\n" +
     "  <ul class=\"nav nav-tabs\">\n" +
-    "    <li>\n" +
-    "      <a>Dashboard</a>\n" +
+    "    <li ui-sref-active-eq=\"active\">\n" +
+    "      <a ui-sref=\"accounts\">Accounts</a>\n" +
     "    </li>\n" +
     "    <li ui-sref-active-eq=\"active\">\n" +
     "      <a ui-sref=\"users\">Users</a>\n" +
     "    </li>\n" +
     "    <li ui-sref-active-eq=\"active\">\n" +
-    "      <a href=\"/#/orders\">Orders</a>\n" +
-    "    </li>\n" +
-    "    <li ui-sref-active-eq=\"active\">\n" +
-    "      <a ui-sref=\"items\">Items</a>\n" +
+    "      <a ui-sref=\"dashboard\">Dashboard</a>\n" +
     "    </li>\n" +
     "  </ul>\n" +
     "</div>\n" +
-    "<div ng-hide=\"AppCtrl.show\">\n" +
+    "<div ng-hide=\"show\">\n" +
     "  <h1>Sign In</h1>\n" +
     "  <hr>\n" +
     "</div>\n" +
