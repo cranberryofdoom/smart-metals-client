@@ -1,4 +1,4 @@
-angular.module('templates-app', ['accounts/accounts.tpl.html', 'alerts/alerts.tpl.html', 'log_in/log_in.tpl.html', 'navbar/navbar.tpl.html', 'users/users.tpl.html']);
+angular.module('templates-app', ['accounts/accounts.tpl.html', 'alerts/alerts.tpl.html', 'dashboard/dashboard.tpl.html', 'log_in/log_in.tpl.html', 'navbar/navbar.tpl.html', 'users/users.tpl.html']);
 
 angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("accounts/accounts.tpl.html",
@@ -31,6 +31,11 @@ angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function
     "		</div>\n" +
     "		<li class=\"list-group-item\" ng-repeat=\"account in accountsCtrl.accounts\">\n" +
     "			{{account.name}}\n" +
+    "			<ul>\n" +
+    "				<li ng-repeat=\"load in account.loads\">\n" +
+    "					{{load.date}}\n" +
+    "				</li>\n" +
+    "			</ul>\n" +
     "			<!-- <i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, $index)\"></i> -->\n" +
     "		</li>\n" +
     "	</ul>\n" +
@@ -43,6 +48,13 @@ angular.module("alerts/alerts.tpl.html", []).run(["$templateCache", function($te
     "<alert ng-repeat=\"alert in alerts\" type=\"alert.type\"close=\"closeAlert($index)\">\n" +
     "	{{alert.message}}\n" +
     "</alert>\n" +
+    "");
+}]);
+
+angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("dashboard/dashboard.tpl.html",
+    "<div class=\"content\" ng-controller=\"DashboardCtrl as dashboardCtrl\">\n" +
+    "</div>\n" +
     "");
 }]);
 

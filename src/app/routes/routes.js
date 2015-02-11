@@ -32,5 +32,16 @@ angular.module('SmartMetals.router', [
       data: {
         pageTitle: 'Accounts'
       }
+    })
+    .state('dashboard', {
+      url: '/dashboard',
+      views: {
+        "main": {
+          templateUrl: 'dashboard/dashboard.tpl.html'
+        }
+      },
+      data: {
+        pageTitle: 'Dashboard'
+      }
     });
 }]);

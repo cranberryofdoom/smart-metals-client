@@ -11,9 +11,18 @@ angular.module('SmartMetals.accounts', [
   accountsCtrl.open = false;
 
   // Get the list of accounts
-  accountsCtrl.accounts = Restangular.all('accounts').getList({
+  var accounts = Restangular.all('accounts');
+  accounts.getList({
     token: $rootScope.token
-  }).$object;
+  }).then(function(accounts) {
+    accountsCtrl.accounts = accounts;
+    // Get the list of all loads under each account
+    for (var i = 0; i < accountsCtrl.accounts.length; i++) {
+      accountsCtrl.accounts[i].loads = accountsCtrl.accounts[i].getList('loads', {
+        token: $rootScope.token
+      }).$object;
+    }
+  });
 
   accountsCtrl.resetForm = function(form) {
     accountsCtrl.account = angular.copy(accountsCtrl.defaultAccount);
