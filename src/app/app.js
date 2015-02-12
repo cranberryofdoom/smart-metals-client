@@ -6,6 +6,7 @@ angular.module('SmartMetals', [
   'SmartMetals.alerts',
   'SmartMetals.users',
   'SmartMetals.accounts',
+  'SmartMetals.dashboard',
   'ui.router',
   'restangular',
   'formValidation'
@@ -32,14 +33,7 @@ angular.module('SmartMetals', [
 .run(function run($rootScope, $window, Restangular, $state) {
   $rootScope.token = $window.localStorage.token;
   $rootScope.show = false;
-  $rootScope.currentUser = {
-    email: null,
-    id: null,
-    firstname: null,
-    lastname: null,
-    role: null,
-    account_id: null
-  };
+  $rootScope.currentUser = {};
   if ($rootScope.token !== undefined) {
     Restangular.one('users').customGET('current', {
       token: $rootScope.token
@@ -55,8 +49,9 @@ angular.module('SmartMetals', [
         role: res.role,
         account_id: res.account_id
       };
+      $rootScope.$broadcast('currentUserRetrieved', $rootScope.currentUser);
       $rootScope.show = true;
-      $state.go('accounts');
+      $state.go('dashboard');
     }, function(res) {
       // The server was not able to find the current user with
       // the token. Which means the token is either expired or just

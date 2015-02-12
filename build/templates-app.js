@@ -36,7 +36,7 @@ angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function
     "					{{load.date}}\n" +
     "				</li>\n" +
     "			</ul>\n" +
-    "			<!-- <i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, $index)\"></i> -->\n" +
+    "			<i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, $index)\"></i>\n" +
     "		</li>\n" +
     "	</ul>\n" +
     "</div>\n" +
@@ -54,6 +54,16 @@ angular.module("alerts/alerts.tpl.html", []).run(["$templateCache", function($te
 angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("dashboard/dashboard.tpl.html",
     "<div class=\"content\" ng-controller=\"DashboardCtrl as dashboardCtrl\">\n" +
+    "	<button class=\"btn btn-default\" ng-click=\"dashboardCtrl.createLoad()\">New Load</button>\n" +
+    "	<accordion>\n" +
+    "		<accordion-group heading=\"{{load.date}}'s Load\" ng-repeat=\"load in dashboardCtrl.loads\">\n" +
+    "			<i class=\"fa fa-times pull-right\" ng-click=\"dashboardCtrl.deleteLoad(load.date, $index)\"></i>\n" +
+    "			<button class=\"btn btn-default\">New Unit</button>\n" +
+    "			<ul>\n" +
+    "				<li ng-repeat=\"unit in load.units\"></li>\n" +
+    "			</ul>\n" +
+    "		</accordion-group>\n" +
+    "	</accordion>\n" +
     "</div>\n" +
     "");
 }]);
