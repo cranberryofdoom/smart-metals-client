@@ -30,6 +30,8 @@ angular.module('SmartMetals', [
   $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
 })
 
+// Handle setting the current user and getting and
+// setting the authentication token for authorized requests
 .run(function run($rootScope, $window, Restangular, $state) {
   $rootScope.token = $window.localStorage.token;
   $rootScope.show = false;
@@ -39,8 +41,7 @@ angular.module('SmartMetals', [
   if ($rootScope.token !== undefined) {
     // Set it so that all methods from now on get
     // to send authorized requests
-    console.log($rootScope.token);
-    Restangular.setRestangularFields({
+    Restangular.setDefaultRequestParams({
       token: $rootScope.token
     });
     Restangular.one('users').customGET('current').then(function(res) {
@@ -66,7 +67,6 @@ angular.module('SmartMetals', [
       $rootScope.show = false;
       $state.go('logIn');
     });
-
   } else {
     $rootScope.show = false;
   }

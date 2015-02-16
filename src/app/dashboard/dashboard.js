@@ -30,10 +30,11 @@ angular.module('SmartMetals.dashboard', [
   // Create a new load
   dashboardCtrl.createLoad = function() {
     var date = new Date();
-    account.post('loads', {
-      date: date.getYear() + "-" + date.getMonth() + "-" + date.getDate(),
-      account_id: $scope.currentUser.account_id,
-      token: $rootScope.token
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    dashboardCtrl.loads.post({
+      date: year + "-" + month + "-" + day
     }).then(function(res) {
       dashboardCtrl.loads.push(res);
       $rootScope.$broadcast('ALERT', {
@@ -43,13 +44,12 @@ angular.module('SmartMetals.dashboard', [
     }, function(res) {
       ServerErrors.inlineErrors(res, null);
     });
+
   };
 
   // Delete a load
   dashboardCtrl.deleteLoad = function(date, loadId, index) {
-    account.remove('loads', loadId, {
-      token: $rootScope.token
-    }).then(function(res) {
+    dashboardCtrl.loads[index].remove().then(function(res) {
       dashboardCtrl.loads.splice(index, 1);
       $rootScope.$broadcast('ALERT', {
         type: "success",

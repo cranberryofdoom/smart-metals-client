@@ -4,7 +4,7 @@ angular.module('SmartMetals.logIn', [
   'formValidation'
 ])
 
-.controller('LogInCtrl', function LogInController($rootScope, $state, AuthService, Restangular, ServerErrors) {
+.controller('LogInCtrl', function LogInController($scope, $rootScope, $state, AuthService, Restangular, ServerErrors) {
   var logInCtrl = this;
   logInCtrl.user = {
     email: '',
@@ -12,10 +12,8 @@ angular.module('SmartMetals.logIn', [
   };
 
   logInCtrl.logIn = function(user, form) {
-    console.log("here");
     // Check if form is vaild first
     if (form.$valid) {
-
       // Sign in the user with the credentials on success,
       // broadcast it, then set the current user and go to
       // the admins page
@@ -37,10 +35,9 @@ angular.module('SmartMetals.logIn', [
 // Factory that handles authentication
 .factory('AuthService', function($http, $rootScope, $window, Restangular) {
   var authService = {};
-
   // Method that sends the HTTP request
   authService.logIn = function(credentials) {
-    // Get the token
+    // Get the token and store it in local storage
     return Restangular.all('/auth/login').post(credentials).then(function(res) {
       $window.localStorage.token = res.token;
       return res.token;

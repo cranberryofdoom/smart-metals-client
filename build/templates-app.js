@@ -70,7 +70,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
 
 angular.module("log_in/log_in.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("log_in/log_in.tpl.html",
-    "<form role=\"form\" name=\"LogInForm\" ng-controller=\"LogInCtrl as logInCtrl\" ng-submit=\"logInCtrl.logIn(LogInCtrl.user, LogInForm)\" novalidate submit-errors>\n" +
+    "<form role=\"form\" name=\"LogInForm\" ng-controller=\"LogInCtrl as logInCtrl\" ng-submit=\"logInCtrl.logIn(logInCtrl.user, LogInForm)\" novalidate submit-errors>\n" +
     "	<!-- Email -->\n" +
     "	<div class=\"form-group has-feedback\" inline-errors>\n" +
     "		<label for=\"email\">Email</label>\n" +
