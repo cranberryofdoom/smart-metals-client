@@ -1,7 +1,10 @@
 angular.module('SmartMetals.accounts', [
   'ui.router',
-  'restangular'
-]).controller('AccountsCtrl', function AccountsCtrl($scope, $rootScope, Restangular, ServerErrors) {
+  'restangular',
+  'formValidation'
+])
+
+.controller('AccountsCtrl', function AccountsCtrl($scope, $rootScope, Restangular, ServerErrors) {
   // Intitalize default models
   var defaultAccount = {
     token: $rootScope.token

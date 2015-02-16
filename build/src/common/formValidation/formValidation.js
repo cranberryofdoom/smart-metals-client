@@ -45,7 +45,7 @@ angular.module('formValidation', ['templates-common'])
         });
         break;
       case 500:
-        showAlertError(res.data.error);
+        showAlertError(res.data.response);
         break;
     }
   };
@@ -59,7 +59,7 @@ angular.module('formValidation', ['templates-common'])
         });
         break;
       case 500:
-        showAlertError(res.data.error);
+        showAlertError(res.data.response);
         break;
     }
   };

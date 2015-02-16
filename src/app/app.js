@@ -34,10 +34,16 @@ angular.module('SmartMetals', [
   $rootScope.token = $window.localStorage.token;
   $rootScope.show = false;
   $rootScope.currentUser = {};
+  // Use the token if it can be found to get
+  // the current user
   if ($rootScope.token !== undefined) {
-    Restangular.one('users').customGET('current', {
+    // Set it so that all methods from now on get
+    // to send authorized requests
+    console.log($rootScope.token);
+    Restangular.setRestangularFields({
       token: $rootScope.token
-    }).then(function(res) {
+    });
+    Restangular.one('users').customGET('current').then(function(res) {
       // The server is able to find a current user with the
       // saved token. Save the retrieved current user and
       // make it accessible to all of the controllers.

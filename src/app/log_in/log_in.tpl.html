@@ -1,8 +1,8 @@
-<form role="form" name="LogInForm" ng-controller="LogInCtrl as LogInCtrl" ng-submit="LogInCtrl.logIn(LogInCtrl.user, LogInForm)" novalidate submit-errors>
+<form role="form" name="LogInForm" ng-controller="LogInCtrl as logInCtrl" ng-submit="logInCtrl.logIn(LogInCtrl.user, LogInForm)" novalidate submit-errors>
 	<!-- Email -->
 	<div class="form-group has-feedback" inline-errors>
 		<label for="email">Email</label>
-		<input ng-model="LogInCtrl.user.email" ng-model-options="{ updateOn: 'blur' }" name="email" type="email" class="form-control" placeholder="Email" required>
+		<input ng-model="logInCtrl.user.email" ng-model-options="{ updateOn: 'blur' }" name="email" type="email" class="form-control" placeholder="Email" required>
 		<icons></icons>
 		<!-- Errors -->
 		<errors>
@@ -14,7 +14,7 @@
 	<!-- Password -->
 	<div class="form-group has-feedback" inline-errors>
 		<label for="password">Password</label>
-		<input ng-model="LogInCtrl.user.password" ng-model-options="{ updateOn: 'blur' }" name="password" type="password" class="form-control" placeholder="Password" required>
+		<input ng-model="logInCtrl.user.password" ng-model-options="{ updateOn: 'blur' }" name="password" type="password" class="form-control" placeholder="Password" required>
 		<icons></icons>
 		<!-- Errors -->
 		<errors>

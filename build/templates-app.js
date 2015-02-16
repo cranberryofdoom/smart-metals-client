@@ -36,7 +36,7 @@ angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function
     "					{{load.date}}\n" +
     "				</li>\n" +
     "			</ul>\n" +
-    "			<i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, $index)\"></i>\n" +
+    "			<i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, account.id, $index)\"></i>\n" +
     "		</li>\n" +
     "	</ul>\n" +
     "</div>\n" +
@@ -57,7 +57,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "	<button class=\"btn btn-default\" ng-click=\"dashboardCtrl.createLoad()\">New Load</button>\n" +
     "	<accordion>\n" +
     "		<accordion-group heading=\"{{load.date}}'s Load\" ng-repeat=\"load in dashboardCtrl.loads\">\n" +
-    "			<i class=\"fa fa-times pull-right\" ng-click=\"dashboardCtrl.deleteLoad(load.date, $index)\"></i>\n" +
+    "			<i class=\"fa fa-times pull-right\" ng-click=\"dashboardCtrl.deleteLoad(load.date, load.id, $index)\"></i>\n" +
     "			<button class=\"btn btn-default\">New Unit</button>\n" +
     "			<ul>\n" +
     "				<li ng-repeat=\"unit in load.units\"></li>\n" +
@@ -70,11 +70,11 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
 
 angular.module("log_in/log_in.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("log_in/log_in.tpl.html",
-    "<form role=\"form\" name=\"LogInForm\" ng-controller=\"LogInCtrl as LogInCtrl\" ng-submit=\"LogInCtrl.logIn(LogInCtrl.user, LogInForm)\" novalidate submit-errors>\n" +
+    "<form role=\"form\" name=\"LogInForm\" ng-controller=\"LogInCtrl as logInCtrl\" ng-submit=\"logInCtrl.logIn(LogInCtrl.user, LogInForm)\" novalidate submit-errors>\n" +
     "	<!-- Email -->\n" +
     "	<div class=\"form-group has-feedback\" inline-errors>\n" +
     "		<label for=\"email\">Email</label>\n" +
-    "		<input ng-model=\"LogInCtrl.user.email\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"email\" type=\"email\" class=\"form-control\" placeholder=\"Email\" required>\n" +
+    "		<input ng-model=\"logInCtrl.user.email\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"email\" type=\"email\" class=\"form-control\" placeholder=\"Email\" required>\n" +
     "		<icons></icons>\n" +
     "		<!-- Errors -->\n" +
     "		<errors>\n" +
@@ -86,7 +86,7 @@ angular.module("log_in/log_in.tpl.html", []).run(["$templateCache", function($te
     "	<!-- Password -->\n" +
     "	<div class=\"form-group has-feedback\" inline-errors>\n" +
     "		<label for=\"password\">Password</label>\n" +
-    "		<input ng-model=\"LogInCtrl.user.password\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"password\" type=\"password\" class=\"form-control\" placeholder=\"Password\" required>\n" +
+    "		<input ng-model=\"logInCtrl.user.password\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"password\" type=\"password\" class=\"form-control\" placeholder=\"Password\" required>\n" +
     "		<icons></icons>\n" +
     "		<!-- Errors -->\n" +
     "		<errors>\n" +

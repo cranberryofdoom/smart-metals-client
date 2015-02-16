@@ -1,16 +1,18 @@
 angular.module('SmartMetals.logIn', [
   'ui.router',
-  'restangular'
+  'restangular',
+  'formValidation'
 ])
 
-.controller('LogInCtrl', function LogInController($scope, $rootScope, $state, AuthService, Restangular, ServerErrors) {
-  $scope.user = {
+.controller('LogInCtrl', function LogInController($rootScope, $state, AuthService, Restangular, ServerErrors) {
+  var logInCtrl = this;
+  logInCtrl.user = {
     email: '',
     password: ''
   };
 
-  $scope.logIn = function(user, form) {
-
+  logInCtrl.logIn = function(user, form) {
+    console.log("here");
     // Check if form is vaild first
     if (form.$valid) {
 
@@ -23,8 +25,9 @@ angular.module('SmartMetals.logIn', [
           type: "success",
           message: user.email + " successfully signed in."
         });
-        $state.go('users');
+        $state.go('dashboard');
       }, function(res) {
+        console.log(res);
         ServerErrors.inlineErrors(res, form);
       });
     }
