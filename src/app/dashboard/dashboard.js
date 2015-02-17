@@ -22,9 +22,20 @@ angular.module('SmartMetals.dashboard', [
     $scope.currentUser = currentUser;
     account = Restangular.one('accounts', currentUser.account_id);
     // Get all loads
-    dashboardCtrl.loads = account.getList('loads').$object;
+    account.getList('loads').then(function(res) {
+      dashboardCtrl.loads = res;
+      // Get all units for each loads
+      for (var i = 0; i < dashboardCtrl.loads.length; i++) {
+        dashboardCtrl.loads[i].open = false;
+        dashboardCtrl.loads[i].units = dashboardCtrl.loads[i].getList('units').$object;
+      }
+    }, function(res) {
+      $rootScope.$broadcast('ALERT', {
+        type: "danger",
+        message: "Failed to get the loads for this account."
+      });
+    });
     // Get all units
-
   });
 
   // Create a new load
@@ -47,6 +58,23 @@ angular.module('SmartMetals.dashboard', [
 
   };
 
+  // Create a new unit
+  dashboardCtrl.createUnit = function(unit, index, form) {
+    // Check if form is valid first
+    if (form.$valid) {
+      dashboardCtrl.loads[index].post("units", unit).then(function(res) {
+        dashboardCtrl.loads.push(res);
+        console.log(res);
+        $rootScope.$broadcast('ALERT', {
+          type: "success",
+          message: res.tag_number + " successfully created."
+        });
+      }, function(res) {
+        ServerErrors.inlineErrors(res, form);
+      });
+    }
+  };
+
   // Delete a load
   dashboardCtrl.deleteLoad = function(date, loadId, index) {
     dashboardCtrl.loads[index].remove().then(function(res) {
@@ -60,4 +88,16 @@ angular.module('SmartMetals.dashboard', [
     });
   };
 
+  // Delete a unit
+  dashboardCtrl.deleteUnit = function(tag_number, unitId, loadIndex, index) {
+    dashboardCtrl.loads[loadIndex].units[index].remove().then(function(res) {
+      dashboardCtrl.loads[loadIndex].units.splice(index, 1);
+      $rootScope.$broadcast('ALERT', {
+        type: "success",
+        message: date + "'s load successfully deleted."
+      });
+    }, function(res) {
+      ServerErrors.inlineErrors(res, null);
+    });
+  };
 });
