@@ -30,13 +30,13 @@ angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function
     "			<h3 class=\"list-group-item-heading\">Accounts</h3>\n" +
     "		</div>\n" +
     "		<li class=\"list-group-item\" ng-repeat=\"account in accountsCtrl.accounts\">\n" +
+    "			<i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, account.id, $index)\"></i>\n" +
     "			{{account.name}}\n" +
     "			<ul>\n" +
     "				<li ng-repeat=\"load in account.loads\">\n" +
     "					{{load.date}}\n" +
     "				</li>\n" +
     "			</ul>\n" +
-    "			<i class=\"fa fa-times pull-right\" ng-click=\"accountsCtrl.deleteAccount(account.name, account.id, $index)\"></i>\n" +
     "		</li>\n" +
     "	</ul>\n" +
     "</div>\n" +

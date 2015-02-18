@@ -50,4 +50,16 @@ angular.module('SmartMetals.accounts', [
       });
     }
   };
+
+  accountsCtrl.deleteAccount = function(name, accountId, index) {
+    accountsCtrl.accounts[index].remove().then(function(res) {
+      accountsCtrl.accounts.splice(index, 1);
+      $rootScope.$broadcast('ALERT', {
+        type: "success",
+        message: name + " successfully deleted."
+      });
+    }, function(res) {
+      ServerErrors.inlineErrors(res, null);
+    });
+  };
 });

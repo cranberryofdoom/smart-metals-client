@@ -21,7 +21,7 @@ angular.module('SmartMetals.dashboard', [
   $scope.$on('currentUserRetrieved', function(event, currentUser) {
     $scope.currentUser = currentUser;
     account = Restangular.one('accounts', currentUser.account_id);
-    // Get all loads
+    // Get all loads and units for each load
     account.getList('loads').then(function(res) {
       dashboardCtrl.loads = res;
       // Get all units for each loads
@@ -35,7 +35,6 @@ angular.module('SmartMetals.dashboard', [
         message: "Failed to get the loads for this account."
       });
     });
-    // Get all units
   });
 
   // Create a new load
@@ -63,7 +62,7 @@ angular.module('SmartMetals.dashboard', [
     // Check if form is valid first
     if (form.$valid) {
       dashboardCtrl.loads[index].post("units", unit).then(function(res) {
-        dashboardCtrl.loads.push(res);
+        dashboardCtrl.loads[index].units.push(res);
         console.log(res);
         $rootScope.$broadcast('ALERT', {
           type: "success",

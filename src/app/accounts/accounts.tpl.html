@@ -26,13 +26,13 @@
 			<h3 class="list-group-item-heading">Accounts</h3>
 		</div>
 		<li class="list-group-item" ng-repeat="account in accountsCtrl.accounts">
+			<i class="fa fa-times pull-right" ng-click="accountsCtrl.deleteAccount(account.name, account.id, $index)"></i>
 			{{account.name}}
 			<ul>
 				<li ng-repeat="load in account.loads">
 					{{load.date}}
 				</li>
 			</ul>
-			<i class="fa fa-times pull-right" ng-click="accountsCtrl.deleteAccount(account.name, account.id, $index)"></i>
 		</li>
 	</ul>
 </div>
