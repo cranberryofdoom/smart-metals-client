@@ -9,7 +9,8 @@ angular.module('SmartMetals', [
   'SmartMetals.dashboard',
   'ui.router',
   'restangular',
-  'formValidation'
+  'formValidation',
+  'authentication'
 ])
 
 .config(function(RestangularProvider) {
@@ -32,47 +33,25 @@ angular.module('SmartMetals', [
 
 // Handle setting the current user and getting and
 // setting the authentication token for authorized requests
-.run(function run($rootScope, $window, Restangular, $state) {
+.run(function run($rootScope, $window, Restangular, $state, Authentication) {
   $rootScope.token = $window.localStorage.token;
   $rootScope.show = false;
-  $rootScope.currentUser = {};
+  $rootScope.currentUser = false;
+  // Set it so that all methods from now on get
+  // to send authorized requests
+  Restangular.setDefaultRequestParams({
+    token: $rootScope.token
+  });
   // Use the token if it can be found to get
   // the current user
   if ($rootScope.token !== undefined) {
-    // Set it so that all methods from now on get
-    // to send authorized requests
-    Restangular.setDefaultRequestParams({
-      token: $rootScope.token
-    });
-    Restangular.one('users').customGET('current').then(function(res) {
-      // The server is able to find a current user with the
-      // saved token. Save the retrieved current user and
-      // make it accessible to all of the controllers.
-      $rootScope.currentUser = {
-        email: res.email,
-        id: res.id,
-        firstname: res.firstname,
-        lastname: res.lastname,
-        role: res.role,
-        account_id: res.account_id
-      };
-      $rootScope.$broadcast('currentUserRetrieved', $rootScope.currentUser);
-      $rootScope.show = true;
-      $state.go('dashboard');
-    }, function(res) {
-      // The server was not able to find the current user with
-      // the token. Which means the token is either expired or just
-      // bad. Delete the token.
-      delete $window.localStorage.token;
-      $rootScope.show = false;
-      $state.go('logIn');
-    });
+    Authentication.getCurrentUser($rootScope.token);
   } else {
     $rootScope.show = false;
   }
 })
 
-.controller('AppCtrl', function AppCtrl($scope, $rootScope, $window, Restangular) {
+.controller('AppCtrl', function AppCtrl($scope, $rootScope, $state, $window, Restangular) {
 
   // Change the page title to the respective page
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -91,7 +70,7 @@ angular.module('SmartMetals', [
     $rootScope.show = false;
     $scope.$broadcast('ALERT', {
       type: "success",
-      message: appCtrl.currentUser.email + " successfully signed out."
+      message: $rootScope.currentUser.email + " successfully signed out."
     });
     $state.go('logIn');
   };

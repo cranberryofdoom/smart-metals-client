@@ -177,7 +177,7 @@ angular.module("navbar/navbar.tpl.html", []).run(["$templateCache", function($te
     "      <a href=\"#\">{{currentUser.email}}</a>\n" +
     "    </li>\n" +
     "    <li class=\"pull-right\">\n" +
-    "      <a ng-click=\"AppCtrl.signOut()\">Sign Out</a>\n" +
+    "      <a ng-click=\"signOut()\">Sign Out</a>\n" +
     "    </li>\n" +
     "  </ul>\n" +
     "  <ul class=\"nav nav-tabs\">\n" +

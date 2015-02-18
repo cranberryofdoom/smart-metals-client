@@ -1,10 +1,11 @@
 angular.module('SmartMetals.dashboard', [
   'ui.router',
   'restangular',
-  'formValidation'
+  'formValidation',
+  'authentication'
 ])
 
-.controller('DashboardCtrl', function DashboardCtrl($scope, $rootScope, Restangular, ServerErrors) {
+.controller('DashboardCtrl', function DashboardCtrl($scope, $rootScope, Restangular, ServerErrors, Authentication) {
   // Intitalize default models
   var defaultLoad = {
     token: $rootScope.token
@@ -17,9 +18,27 @@ angular.module('SmartMetals.dashboard', [
   dashboardCtrl.load = angular.copy(defaultLoad);
   dashboardCtrl.unit = angular.copy(defaultUnit);
 
+  if ($rootScope.currentUser) {
+    console.log($rootScope.currentUser);
+    account = Restangular.one('accounts', $rootScope.currentUser.account_id);
+    // Get all loads and units for each load
+    account.getList('loads').then(function(res) {
+      dashboardCtrl.loads = res;
+      // Get all units for each loads
+      for (var i = 0; i < dashboardCtrl.loads.length; i++) {
+        dashboardCtrl.loads[i].open = false;
+        dashboardCtrl.loads[i].units = dashboardCtrl.loads[i].getList('units').$object;
+      }
+    }, function(res) {
+      $rootScope.$broadcast('ALERT', {
+        type: "danger",
+        message: "Failed to get the loads for this account."
+      });
+    });
+  }
+
   // Get the list of loads and units under account
   $scope.$on('currentUserRetrieved', function(event, currentUser) {
-    $scope.currentUser = currentUser;
     account = Restangular.one('accounts', currentUser.account_id);
     // Get all loads and units for each load
     account.getList('loads').then(function(res) {
