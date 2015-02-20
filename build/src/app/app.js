@@ -13,6 +13,7 @@ angular.module('SmartMetals', [
   'authentication'
 ])
 
+// Set the baseURL to direct it to where it should be
 .config(function(RestangularProvider) {
   RestangularProvider.setBaseUrl('https://smartmetals-api.herokuapp.com/api/v1');
 })
@@ -34,44 +35,61 @@ angular.module('SmartMetals', [
 // Handle setting the current user and getting and
 // setting the authentication token for authorized requests
 .run(function run($rootScope, $window, Restangular, $state, Authentication) {
-  $rootScope.token = $window.localStorage.token;
-  $rootScope.show = false;
-  $rootScope.currentUser = false;
-  // Set it so that all methods from now on get
-  // to send authorized requests
-  Restangular.setDefaultRequestParams({
-    token: $rootScope.token
-  });
-  // Use the token if it can be found to get
-  // the current user
-  if ($rootScope.token !== undefined) {
-    Authentication.getCurrentUser($rootScope.token);
-  } else {
+
+    // Initialize all app-wide variables that need to be tracked.
+    // This means: the token, the current user and show (which
+    // determines whether the navbar should be shown or not).
+    $rootScope.token = $window.localStorage.token;
     $rootScope.show = false;
-  }
-})
+    $rootScope.currentUser = false;
 
-.controller('AppCtrl', function AppCtrl($scope, $rootScope, $state, $window, Restangular) {
-
-  // Change the page title to the respective page
-  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-    if (angular.isDefined(toState.data.pageTitle)) {
-      $scope.pageTitle = toState.data.pageTitle + ' | SmartMetals';
-    }
-  });
-
-  $scope.setCurrentUser = function(user) {
-    $rootScope.currentUser = user;
-    $rootScope.show = true;
-  };
-
-  $scope.signOut = function() {
-    delete $window.localStorage.token;
-    $rootScope.show = false;
-    $scope.$broadcast('ALERT', {
-      type: "success",
-      message: $rootScope.currentUser.email + " successfully signed out."
+    // Set Restangular to send all requests with the
+    // token
+    Restangular.setDefaultRequestParams({
+      token: $rootScope.token
     });
-    $state.go('logIn');
-  };
-});
+
+    // Use the token if it can be found to get
+    // the current user
+    if ($rootScope.token !== undefined) {
+
+      // Try to get the current user with the token
+      Authentication.getCurrentUser($rootScope.token).then(
+
+        // The current user was sucessfully retrieved with
+        // the token. Change the navbar so that it displays
+        // the proper user information and notify the other modules
+        // that the current user is loaded into the $rootScope.
+        function(res) {
+          $rootScope.$broadcast('currentUserRetrieved', $rootScope.currentUser);
+          $rootScope.show = true;
+          $state.go('dashboard');
+        },
+
+        // The current user was unsucessfully retrieved with
+        // the token. This must mean that the token is either
+        // invalid or expired. Delete the token and make sure
+        // the token variable matches.
+        function(error) {
+          delete $window.localStorage.token;
+          $rootScope.token = $window.localStorage.token;
+        });
+    }
+  })
+  .controller('AppCtrl', function AppCtrl($scope, $rootScope, $state, $window, Restangular, Authentication) {
+
+    // Change the page title to the respective page
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      if (angular.isDefined(toState.data.pageTitle)) {
+        $scope.pageTitle = toState.data.pageTitle + ' | SmartMetals';
+      }
+    });
+
+    $scope.signOut = function() {
+      Authentication.logOutUser();
+      $scope.$broadcast('ALERT', {
+        type: "success",
+        message: $rootScope.currentUser.email + " successfully signed out."
+      });
+    };
+  });
