@@ -12,6 +12,10 @@ angular.module('SmartMetals.logIn', [
     password: ''
   };
 
+  $scope.$on('currentUserRetrieved', function(event, currentUser) {
+    $state.go('dashboard');
+  });
+
   // Logs in the user and handles page naviation
   // and any local scope setting from there
   logInCtrl.logIn = function(user, form) {
@@ -39,7 +43,7 @@ angular.module('SmartMetals.logIn', [
 
         // Log in was unsuccessful. Display the errors.
         function(error) {
-          ServerErrors.inlineErrors(error, form);
+          ServerErrors.generalErrors(error);
         });
     }
   };

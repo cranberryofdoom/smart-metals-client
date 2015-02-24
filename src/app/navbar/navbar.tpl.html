@@ -1,25 +1,19 @@
-<div ng-show="show">
+<nav class="container" ng-show="show">
   <ul class="nav nav-pills">
     <li class="pull-left">
-      <a href="#">{{currentUser.email}}</a>
+      <a href="#">
+        <img src="assets/images/logo.png">
+      </a>
     </li>
     <li class="pull-right">
       <a ng-click="signOut()">Sign Out</a>
     </li>
-  </ul>
-  <ul class="nav nav-tabs">
-    <li ui-sref-active-eq="active">
-      <a ui-sref="accounts">Accounts</a>
-    </li>
-    <li ui-sref-active-eq="active">
-      <a ui-sref="users">Users</a>
-    </li>
-    <li ui-sref-active-eq="active">
-      <a ui-sref="dashboard">Dashboard</a>
+    <li class="pull-right">
+      <a href="#">{{currentUser.email}}</a>
     </li>
   </ul>
-</div>
-<div ng-hide="show">
+</nav>
+<nav ng-hide="show">
   <h1>Sign In</h1>
   <hr>
-</div>
+</nav>

@@ -30,6 +30,7 @@ angular.module('SmartMetals.dashboard', [
         // Get all units for each loads
         for (var i = 0; i < dashboardCtrl.loads.length; i++) {
           dashboardCtrl.loads[i].open = false;
+          dashboardCtrl.loads[i].create = false;
           dashboardCtrl.loads[i].units = dashboardCtrl.loads[i].getList('units').$object;
         }
       }, function(res) {
@@ -39,6 +40,13 @@ angular.module('SmartMetals.dashboard', [
         });
       });
     }
+
+    dashboardCtrl.resetForm = function(form, index) {
+      dashboardCtrl.load = angular.copy(dashboardCtrl.defaultload);
+      dashboardCtrl.loads[index].create = false;
+      form.$setPristine();
+      form.$setUntouched();
+    };
 
     // Create a new load
     dashboardCtrl.createLoad = function() {
@@ -66,9 +74,10 @@ angular.module('SmartMetals.dashboard', [
       if (form.$valid) {
         dashboardCtrl.loads[index].post("units", unit).then(function(res) {
           dashboardCtrl.loads[index].units.push(res);
+          dashboardCtrl.loads[index].create = false;
           $rootScope.$broadcast('ALERT', {
             type: "success",
-            message: res.tag_number + " successfully created."
+            message: "Unit " + res.tag_number + " successfully created."
           });
         }, function(res) {
           ServerErrors.inlineErrors(res, form);
@@ -95,7 +104,7 @@ angular.module('SmartMetals.dashboard', [
         dashboardCtrl.loads[loadIndex].units.splice(index, 1);
         $rootScope.$broadcast('ALERT', {
           type: "success",
-          message: date + "'s load successfully deleted."
+          message: "Unit " + tag_number + " successfully deleted."
         });
       }, function(res) {
         ServerErrors.inlineErrors(res, null);

@@ -37,12 +37,8 @@ angular.module('formValidation', ['templates-common'])
 
   serverErrors.generalErrors = function(res) {
     switch (res.status) {
-      case 422:
-        angular.forEach(res.data, function(value, key) {
-          for (var i = 0; i < value.length; i++) {
-            showAlertError(value[i]);
-          }
-        });
+      case 401:
+        showAlertError(res.data.response);
         break;
       case 500:
         showAlertError(res.data.response);

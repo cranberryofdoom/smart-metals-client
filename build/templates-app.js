@@ -54,86 +54,119 @@ angular.module("alerts/alerts.tpl.html", []).run(["$templateCache", function($te
 angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("dashboard/dashboard.tpl.html",
     "<div class=\"content\" ng-controller=\"DashboardCtrl as dashboardCtrl\">\n" +
-    "	<button class=\"btn btn-default\" ng-click=\"dashboardCtrl.createLoad()\">New Load</button>\n" +
-    "	<accordion>\n" +
-    "		<accordion-group heading=\"{{load.date}}'s Load\" ng-repeat=\"load in dashboardCtrl.loads\">\n" +
-    "			<i class=\"fa fa-times pull-right\" ng-click=\"dashboardCtrl.deleteLoad(load.date, load.id, $index)\"></i>\n" +
-    "			<button class=\"btn btn-default\" ng-click=\"load.open = !load.open\">New Unit</button>\n" +
-    "			<form ng-show=\"load.open\" role=\"form\" name=\"CreateUnitForm\" ng-submit=\"dashboardCtrl.createUnit(dashboardCtrl.load.unit, $index, CreateUnitForm)\" novalidate>\n" +
-    "				<!-- Tag Number -->\n" +
-    "				<div class=\"form-group has-feedback\" showError>\n" +
-    "					<label for=\"tag_number\">Tag Number</label>\n" +
-    "					<input ng-model=\"dashboardCtrl.load.unit.tag_number\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"tag_number\" type=\"number\" class=\"form-control\" placeholder=\"Tag Number\" required>\n" +
-    "					<icons></icons>\n" +
-    "					<!-- Errors -->\n" +
-    "					<errors>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.tag_number.$error.required\">Tag Number required.</p>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.tag_number.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.tag_number.$error.serverMessages\">{{message}}</p>\n" +
-    "					</errors>\n" +
-    "				</div>\n" +
-    "				<!-- Product -->\n" +
-    "				<div class=\"form-group has-feedback\" showError>\n" +
-    "					<label for=\"product\">Product</label>\n" +
-    "					<input ng-model=\"dashboardCtrl.load.unit.product\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"product\" type=\"text\" class=\"form-control\" placeholder=\"Product\" required>\n" +
-    "					<icons></icons>\n" +
-    "					<!-- Errors -->\n" +
-    "					<errors>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.product.$error.required\">Tag Number required.</p>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.product.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.product.$error.serverMessages\">{{message}}</p>\n" +
-    "					</errors>\n" +
-    "				</div>\n" +
-    "				<!-- Gross Weight -->\n" +
-    "				<div class=\"form-group has-feedback\" showError>\n" +
-    "					<label for=\"gross_weight\">Gross Weight</label>\n" +
-    "					<input ng-model=\"dashboardCtrl.load.unit.gross_weight\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"gross_weight\" type=\"number\" class=\"form-control\" placeholder=\"Gross Weight\" required>\n" +
-    "					<icons></icons>\n" +
-    "					<!-- Errors -->\n" +
-    "					<errors>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.gross_weight.$error.required\">Tag Number required.</p>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.gross_weight.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.gross_weight.$error.serverMessages\">{{message}}</p>\n" +
-    "					</errors>\n" +
-    "				</div>\n" +
-    "				<!-- Tare -->\n" +
-    "				<div class=\"form-group has-feedback\" showError>\n" +
-    "					<label for=\"product\">Tare</label>\n" +
-    "					<input ng-model=\"dashboardCtrl.load.unit.tare\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"tare\" type=\"number\" class=\"form-control\" placeholder=\"Tare\" required>\n" +
-    "					<icons></icons>\n" +
-    "					<!-- Errors -->\n" +
-    "					<errors>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.tare.$error.required\">Tag Number required.</p>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.tare.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.tare.$error.serverMessages\">{{message}}</p>\n" +
-    "					</errors>\n" +
-    "				</div>\n" +
-    "				<!-- Comments -->\n" +
-    "				<div class=\"form-group has-feedback\" showError>\n" +
-    "					<label for=\"comments\">Tag Number</label>\n" +
-    "					<input ng-model=\"dashboardCtrl.load.unit.comments\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"comments\" type=\"text\" class=\"form-control\" placeholder=\"Comments\" required>\n" +
-    "					<icons></icons>\n" +
-    "					<!-- Errors -->\n" +
-    "					<errors>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.comments.$error.required\">Tag Number required.</p>\n" +
-    "						<p class=\"text-danger\" ng-show=\"CreateUnitForm.comments.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.comments.$error.serverMessages\">{{message}}</p>\n" +
-    "					</errors>\n" +
-    "				</div>\n" +
-    "				<!-- Submit Button -->\n" +
-    "				<button type=\"submit\" class=\"btn btn-default\">Submit</button>\n" +
-    "				<!-- Cancel Button -->\n" +
-    "				<button type=\"button\" class=\"pull-right btn btn-default\" ng-click=\"dashboardCtrl.resetForm(CreateUnitForm)\">Cancel</button>\n" +
-    "			</form>\n" +
-    "			<div ng-repeat=\"unit in load.units\" class=\"panel panel-default\">\n" +
-    "				<div class=\"panel-heading\">\n" +
-    "					<h3 class=\"panel-title\">{{unit.tag_number}}</h3>\n" +
-    "					<i class=\"fa fa-times pull-right\" ng-click=\"dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
-    "				</div>\n" +
-    "				<div class=\"panel-body\">\n" +
-    "					<p><strong>Product: </strong>{{unit.product}}</p>\n" +
-    "					<p><strong>Gross Weight: </strong>{{unit.gross_weight}}</p>\n" +
-    "					<p><strong>Tare: </strong>{{unit.tare}}</p>\n" +
-    "					<p><strong>Comments: </strong>{{unit.comments}}</p>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "		</accordion-group>\n" +
-    "	</accordion>\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12\">\n" +
+    "      <div class=\"card card-btn\" ng-click=\"dashboardCtrl.createLoad()\">\n" +
+    "        <div class=\"card-content\">\n" +
+    "          <h2>New Load</h2>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{ 'col-lg-6': load.open, 'col-lg-3': !load.open }\">\n" +
+    "      <div class=\"card\">\n" +
+    "        <i class=\"fa fa-times\" ng-click=\"dashboardCtrl.deleteLoad(load.date, load.id, $index)\"></i>\n" +
+    "        <div class=\"card-content\" ng-class=\"{ 'open': load.open}\">\n" +
+    "          <h2 ng-click=\"load.open = !load.open\">{{load.date}}'s Load</h2>\n" +
+    "          <div class=\"card-flip\" ng-show=\"load.open\">\n" +
+    "            <form ng-show=\"load.create\" role=\"form\" name=\"CreateUnitForm\" ng-submit=\"dashboardCtrl.createUnit(dashboardCtrl.load.unit, $index, CreateUnitForm)\" novalidate>\n" +
+    "              <!-- Tag Number -->\n" +
+    "              <div class=\"form-group has-feedback\" showError>\n" +
+    "                <label for=\"tag_number\">Tag Number</label>\n" +
+    "                <input ng-model=\"dashboardCtrl.load.unit.tag_number\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"tag_number\" type=\"number\" class=\"form-control\" placeholder=\"Tag Number\" required>\n" +
+    "                <icons></icons>\n" +
+    "                <!-- Errors -->\n" +
+    "                <errors>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.tag_number.$error.required\">Tag Number required.</p>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.tag_number.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.tag_number.$error.serverMessages\">{{message}}</p>\n" +
+    "                </errors>\n" +
+    "              </div>\n" +
+    "              <!-- Product -->\n" +
+    "              <div class=\"form-group has-feedback\" showError>\n" +
+    "                <label for=\"product\">Product</label>\n" +
+    "                <input ng-model=\"dashboardCtrl.load.unit.product\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"product\" type=\"text\" class=\"form-control\" placeholder=\"Product\" required>\n" +
+    "                <icons></icons>\n" +
+    "                <!-- Errors -->\n" +
+    "                <errors>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.product.$error.required\">Tag Number required.</p>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.product.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.product.$error.serverMessages\">{{message}}</p>\n" +
+    "                </errors>\n" +
+    "              </div>\n" +
+    "              <!-- Gross Weight -->\n" +
+    "              <div class=\"form-group has-feedback\" showError>\n" +
+    "                <label for=\"gross_weight\">Gross Weight</label>\n" +
+    "                <input ng-model=\"dashboardCtrl.load.unit.gross_weight\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"gross_weight\" type=\"number\" class=\"form-control\" placeholder=\"Gross Weight\" required>\n" +
+    "                <icons></icons>\n" +
+    "                <!-- Errors -->\n" +
+    "                <errors>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.gross_weight.$error.required\">Gross Weight required.</p>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.gross_weight.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.gross_weight.$error.serverMessages\">{{message}}</p>\n" +
+    "                </errors>\n" +
+    "              </div>\n" +
+    "              <!-- Tare -->\n" +
+    "              <div class=\"form-group has-feedback\" showError>\n" +
+    "                <label for=\"product\">Tare</label>\n" +
+    "                <input ng-model=\"dashboardCtrl.load.unit.tare\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"tare\" type=\"number\" class=\"form-control\" placeholder=\"Tare\" required>\n" +
+    "                <icons></icons>\n" +
+    "                <!-- Errors -->\n" +
+    "                <errors>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.tare.$error.required\">Tare required.</p>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.tare.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.tare.$error.serverMessages\">{{message}}</p>\n" +
+    "                </errors>\n" +
+    "              </div>\n" +
+    "              <!-- Comments -->\n" +
+    "              <div class=\"form-group has-feedback\" showError>\n" +
+    "                <label for=\"comments\">Comments</label>\n" +
+    "                <input ng-model=\"dashboardCtrl.load.unit.comments\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"comments\" type=\"text\" class=\"form-control\" placeholder=\"Comments\">\n" +
+    "                <icons></icons>\n" +
+    "                <!-- Errors -->\n" +
+    "                <errors>\n" +
+    "                  <p class=\"text-danger\" ng-show=\"CreateUnitForm.comments.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.comments.$error.serverMessages\">{{message}}</p>\n" +
+    "                </errors>\n" +
+    "              </div>\n" +
+    "              <!-- Submit Button -->\n" +
+    "              <button type=\"submit\" class=\"pull-left btn btn-default\">Submit</button>\n" +
+    "              <!-- Cancel Button -->\n" +
+    "              <button type=\"button\" class=\"pull-right btn btn-default\" ng-click=\"dashboardCtrl.resetForm(CreateUnitForm, $index)\">Cancel</button>\n" +
+    "            </form>\n" +
+    "            <p ng-show=\"!load.create && load.units.length == 0\"><strong>This load doesn't have any units! Why don't you make one?</strong>\n" +
+    "            </p>\n" +
+    "            <button ng-show=\"!load.create\" class=\"btn btn-default\" ng-click=\"load.create = !load.create\">Create Unit</button>\n" +
+    "            <table ng-show=\"!load.create && load.units.length > 0\" class=\"table table-striped\">\n" +
+    "              <thead>\n" +
+    "                <tr>\n" +
+    "                  <td><strong>Unit Tag Number</strong>\n" +
+    "                  </td>\n" +
+    "                  <td><strong>Product</strong>\n" +
+    "                  </td>\n" +
+    "                  <td><strong>Gross Weight</strong>\n" +
+    "                  </td>\n" +
+    "                  <td><strong>Tare</strong>\n" +
+    "                  </td>\n" +
+    "                  <td><strong>Comments</strong>\n" +
+    "                  </td>\n" +
+    "                  <td><strong>Actions</strong>\n" +
+    "                  </td>\n" +
+    "                </tr>\n" +
+    "              </thead>\n" +
+    "              <tbody>\n" +
+    "                <tr ng-repeat=\"unit in load.units\" ng-show=\"load.open\">\n" +
+    "                  <td>{{unit.tag_number}}</td>\n" +
+    "                  <td>{{unit.product}}</td>\n" +
+    "                  <td>{{unit.gross_weight}}</td>\n" +
+    "                  <td>{{unit.tare}}</td>\n" +
+    "                  <td>{{unit.comments}}</td>\n" +
+    "                  <td>\n" +
+    "                    <i class=\"fa fa-edit\" ng-click=\"dashboardCtrl.editUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
+    "                    <i class=\"fa fa-times\" ng-click=\"dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
+    "                  </td>\n" +
+    "                </tr>\n" +
+    "              </tbody>\n" +
+    "            </table>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
     "</div>\n" +
     "");
 }]);
@@ -171,31 +204,25 @@ angular.module("log_in/log_in.tpl.html", []).run(["$templateCache", function($te
 
 angular.module("navbar/navbar.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("navbar/navbar.tpl.html",
-    "<div ng-show=\"show\">\n" +
+    "<nav class=\"container\" ng-show=\"show\">\n" +
     "  <ul class=\"nav nav-pills\">\n" +
     "    <li class=\"pull-left\">\n" +
-    "      <a href=\"#\">{{currentUser.email}}</a>\n" +
+    "      <a href=\"#\">\n" +
+    "        <img src=\"assets/images/logo.png\">\n" +
+    "      </a>\n" +
     "    </li>\n" +
     "    <li class=\"pull-right\">\n" +
     "      <a ng-click=\"signOut()\">Sign Out</a>\n" +
     "    </li>\n" +
-    "  </ul>\n" +
-    "  <ul class=\"nav nav-tabs\">\n" +
-    "    <li ui-sref-active-eq=\"active\">\n" +
-    "      <a ui-sref=\"accounts\">Accounts</a>\n" +
-    "    </li>\n" +
-    "    <li ui-sref-active-eq=\"active\">\n" +
-    "      <a ui-sref=\"users\">Users</a>\n" +
-    "    </li>\n" +
-    "    <li ui-sref-active-eq=\"active\">\n" +
-    "      <a ui-sref=\"dashboard\">Dashboard</a>\n" +
+    "    <li class=\"pull-right\">\n" +
+    "      <a href=\"#\">{{currentUser.email}}</a>\n" +
     "    </li>\n" +
     "  </ul>\n" +
-    "</div>\n" +
-    "<div ng-hide=\"show\">\n" +
+    "</nav>\n" +
+    "<nav ng-hide=\"show\">\n" +
     "  <h1>Sign In</h1>\n" +
     "  <hr>\n" +
-    "</div>\n" +
+    "</nav>\n" +
     "");
 }]);
 

@@ -63,7 +63,6 @@ angular.module('SmartMetals', [
         function(res) {
           $rootScope.$broadcast('currentUserRetrieved', $rootScope.currentUser);
           $rootScope.show = true;
-          $state.go('dashboard');
         },
 
         // The current user was unsucessfully retrieved with

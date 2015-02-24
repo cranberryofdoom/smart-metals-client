@@ -5793,17 +5793,28 @@ button.close {
  * Typography-related.
  */
 /**
+ * Color-related.
+ */
+/**
  * App-wide styles
  */
-.content {
-  width: 50%;
-  margin: 0 auto;
+h1,
+h2,
+h3,
+h4,
+html,
+body,
+div,
+p,
+a,
+li {
+  font-family: 'Lato', sans-serif;
+  color: black;
+  font-weight: 300;
 }
-nav {
-  margin-bottom: 20px;
-}
-a.accordion-toggle {
-  cursor: pointer;
+a:hover {
+  color: black;
+  text-decoration: underline;
 }
 .fa-times:hover {
   cursor: pointer;
@@ -5859,3 +5870,59 @@ textarea.ng-untouched ~ icons i.fa-check {
  *
  * TODO: In a later version of this boilerplate, I'd like to automate this.
  */
+nav ul.nav-pills {
+  height: 140px;
+}
+nav ul.nav-pills li {
+  text-transform: uppercase;
+}
+nav ul.nav-pills li a {
+  cursor: pointer;
+}
+nav ul.nav-pills li a:hover {
+  background-color: transparent;
+}
+nav ul.nav-pills li.pull-right {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.card {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  margin: 20px auto;
+  border: 1px solid #545454;
+  position: relative;
+  overflow-y: hidden;
+}
+.card .card-content {
+  position: relative;
+  overflow-y: scroll;
+  margin: 0 10px;
+  margin-top: 40%;
+}
+.card .card-content h2 {
+  text-align: center;
+  margin: 0;
+  cursor: pointer;
+}
+.card .card-content .card-flip {
+  margin-top: 20px;
+}
+.card .card-content .card-flip table {
+  margin-top: 20px;
+}
+.card .card-content .card-flip table i {
+  margin-right: 10px;
+}
+.card > i {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.card .card-content.open {
+  margin-top: 20px;
+}

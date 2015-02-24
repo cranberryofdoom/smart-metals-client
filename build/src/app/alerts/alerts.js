@@ -11,6 +11,9 @@ angular.module('SmartMetals.alerts', [
 
   // Success alerts
   $scope.$on('ALERT', function(event, data) {
+    if ($scope.alerts.length > 0) {
+      $scope.alerts.length = 0;
+    }
     $scope.alerts.push({
       type: data.type,
       message: data.message

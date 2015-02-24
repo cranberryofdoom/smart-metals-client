@@ -15,9 +15,7 @@ angular.module('SmartMetals.accounts', [
 
   // Get the list of accounts
   var accounts = Restangular.all('accounts');
-  accounts.getList({
-    token: $rootScope.token
-  }).then(function(accounts) {
+  accounts.getList().then(function(accounts) {
     accountsCtrl.accounts = accounts;
     // Get the list of all loads under each account
     for (var i = 0; i < accountsCtrl.accounts.length; i++) {
