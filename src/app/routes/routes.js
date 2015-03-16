@@ -33,6 +33,17 @@ angular.module('SmartMetals.router', [
         pageTitle: 'Accounts'
       }
     })
+    .state('currentAccount', {
+      url: '/my_account',
+      views: {
+        "main": {
+          templateUrl: 'accounts/currentAccount.tpl.html'
+        }
+      },
+      data: {
+        pageTitle: 'Accounts'
+      }
+    })
     .state('dashboard', {
       url: '/dashboard',
       views: {

@@ -9,7 +9,7 @@
       <a ng-click="signOut()">Sign Out</a>
     </li>
     <li class="pull-right">
-      <a href="#">{{currentUser.email}}</a>
+      <a ui-sref="currentAccount">{{currentUser.email}}</a>
     </li>
     <li ng-show="currentUser.role == 2" ui-sref-active-eq="active" class="pull-right">
       <a ui-sref="accounts">Accounts</a>

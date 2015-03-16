@@ -1,4 +1,4 @@
-angular.module('templates-app', ['accounts/accounts.tpl.html', 'alerts/alerts.tpl.html', 'dashboard/dashboard.tpl.html', 'log_in/log_in.tpl.html', 'navbar/navbar.tpl.html', 'users/users.tpl.html']);
+angular.module('templates-app', ['accounts/accounts.tpl.html', 'accounts/currentAccount.tpl.html', 'alerts/alerts.tpl.html', 'dashboard/dashboard.tpl.html', 'log_in/log_in.tpl.html', 'navbar/navbar.tpl.html', 'users/users.tpl.html']);
 
 angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("accounts/accounts.tpl.html",
@@ -39,6 +39,19 @@ angular.module("accounts/accounts.tpl.html", []).run(["$templateCache", function
     "			</ul>\n" +
     "		</li>\n" +
     "	</ul>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("accounts/currentAccount.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("accounts/currentAccount.tpl.html",
+    "<div class=\"content\">\n" +
+    "  <h2>Name</h2>\n" +
+    "  <p>{{currentUser.firstname}} {{currentUser.lastname}}</p>\n" +
+    "  <h2>Email</h2>\n" +
+    "  <p>{{currentUser.email}}</p>\n" +
+    "  <h2>Role</h2>\n" +
+    "  <p>{{currentUser.role}}</p>\n" +
     "</div>\n" +
     "");
 }]);
@@ -215,7 +228,7 @@ angular.module("navbar/navbar.tpl.html", []).run(["$templateCache", function($te
     "      <a ng-click=\"signOut()\">Sign Out</a>\n" +
     "    </li>\n" +
     "    <li class=\"pull-right\">\n" +
-    "      <a href=\"#\">{{currentUser.email}}</a>\n" +
+    "      <a ui-sref=\"currentAccount\">{{currentUser.email}}</a>\n" +
     "    </li>\n" +
     "    <li ng-show=\"currentUser.role == 2\" ui-sref-active-eq=\"active\" class=\"pull-right\">\n" +
     "      <a ui-sref=\"accounts\">Accounts</a>\n" +
