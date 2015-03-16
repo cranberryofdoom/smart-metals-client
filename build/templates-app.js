@@ -62,7 +62,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{ 'col-lg-6': load.open, 'col-lg-3': !load.open }\">\n" +
+    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{ 'col-lg-9': load.open, 'col-lg-3': !load.open }\">\n" +
     "      <div class=\"card\">\n" +
     "        <i class=\"fa fa-times\" ng-click=\"dashboardCtrl.deleteLoad(load.date, load.id, $index)\"></i>\n" +
     "        <div class=\"card-content\" ng-class=\"{ 'open': load.open}\">\n" +
@@ -217,9 +217,15 @@ angular.module("navbar/navbar.tpl.html", []).run(["$templateCache", function($te
     "    <li class=\"pull-right\">\n" +
     "      <a href=\"#\">{{currentUser.email}}</a>\n" +
     "    </li>\n" +
+    "    <li ng-show=\"currentUser.role == 2\" ui-sref-active-eq=\"active\" class=\"pull-right\">\n" +
+    "      <a ui-sref=\"accounts\">Accounts</a>\n" +
+    "    </li>\n" +
+    "    <li ui-sref-active-eq=\"active\" class=\"pull-right\">\n" +
+    "      <a ui-sref=\"dashboard\">Dashboard</a>\n" +
+    "    </li>\n" +
     "  </ul>\n" +
     "</nav>\n" +
-    "<nav ng-hide=\"show\">\n" +
+    "<nav class=\"container\" ng-hide=\"show\">\n" +
     "  <h1>Sign In</h1>\n" +
     "  <hr>\n" +
     "</nav>\n" +

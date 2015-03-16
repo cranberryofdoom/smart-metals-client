@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="load in dashboardCtrl.loads" ng-class="{ 'col-lg-6': load.open, 'col-lg-3': !load.open }">
+    <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="load in dashboardCtrl.loads" ng-class="{ 'col-lg-9': load.open, 'col-lg-3': !load.open }">
       <div class="card">
         <i class="fa fa-times" ng-click="dashboardCtrl.deleteLoad(load.date, load.id, $index)"></i>
         <div class="card-content" ng-class="{ 'open': load.open}">
