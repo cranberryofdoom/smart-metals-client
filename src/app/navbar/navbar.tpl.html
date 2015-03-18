@@ -11,7 +11,7 @@
     <li class="pull-right">
       <a ui-sref="currentAccount">{{currentUser.email}}</a>
     </li>
-    <li ng-show="currentUser.role == 2" ui-sref-active-eq="active" class="pull-right">
+    <li ng-show="currentUser.role == 'super_admin'" ui-sref-active-eq="active" class="pull-right">
       <a ui-sref="accounts">Accounts</a>
     </li>
     <li ui-sref-active-eq="active" class="pull-right">

@@ -1,19 +1,27 @@
 <div class="content" ng-controller="DashboardCtrl as dashboardCtrl">
   <div class="row">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-show="currentUser.role == 'super_admin'">
       <div class="card card-btn" ng-click="dashboardCtrl.createLoad()">
         <div class="card-content">
           <h2>New Load</h2>
         </div>
       </div>
     </div>
-    <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="load in dashboardCtrl.loads" ng-class="{ 'col-lg-9': load.open, 'col-lg-3': !load.open }">
-      <div class="card">
-        <i class="fa fa-times" ng-click="dashboardCtrl.deleteLoad(load.date, load.id, $index)"></i>
-        <div class="card-content" ng-class="{ 'open': load.open}">
-          <h2 ng-click="load.open = !load.open">{{load.date}}'s Load</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="load in dashboardCtrl.loads" ng-class="{ 'col-lg-9 col-md-8 col-sm-12': load.open, 'col-lg-3 col-md-4 col-sm-6': !load.open }">
+      <div class="card" back-img="{{load.images[0]}}">
+
+        <div class="card-content" ng-class="{'open':load.open}">
+          <div class="card-action-bar">
+            <i class="fa fa-arrow-right pull-left"></i>
+            <i class="fa fa-times pull-right" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteLoad(load.date, load.id, $index)"></i>
+            <i class="fa fa-edit pull-right"></i>
+            <p ng-click="load.open = !load.open">{{load.date}}'s Load</p>
+          </div>
           <div class="card-flip" ng-show="load.open">
             <form ng-show="load.create" role="form" name="CreateUnitForm" ng-submit="dashboardCtrl.createUnit(dashboardCtrl.load.unit, $index, CreateUnitForm)" novalidate>
+              <h3>Create a new Unit</h3>
               <!-- Tag Number -->
               <div class="form-group has-feedback" showError>
                 <label for="tag_number">Tag Number</label>
@@ -73,9 +81,12 @@
               <!-- Cancel Button -->
               <button type="button" class="pull-right btn btn-default" ng-click="dashboardCtrl.resetForm(CreateUnitForm, $index)">Cancel</button>
             </form>
-            <p ng-show="!load.create && load.units.length == 0"><strong>This load doesn't have any units! Why don't you make one?</strong>
+            <p ng-show="!load.create && load.units.length == 0 && currentUser.role == 'super_admin'"><strong>This load doesn't have any units! Why don't you make one?</strong>
             </p>
-            <button ng-show="!load.create" class="btn btn-default" ng-click="load.create = !load.create">Create Unit</button>
+            <p ng-show="!load.create && load.units.length == 0 && currentUser.role == 'user'"><strong>This load doesn't have any units!</strong>
+            </p>
+
+            <button ng-show="!load.create && currentUser.role == 'super_admin'" class="btn btn-default" ng-click="load.create = !load.create">Create Unit</button>
             <table ng-show="!load.create && load.units.length > 0" class="table table-striped">
               <thead>
                 <tr>
@@ -101,8 +112,8 @@
                   <td>{{unit.tare}}</td>
                   <td>{{unit.comments}}</td>
                   <td>
-                    <i class="fa fa-edit" ng-click="dashboardCtrl.editUnit(unit.tag_number, unit.id, $parent.$index, $index)"></i>
-                    <i class="fa fa-times" ng-click="dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)"></i>
+                    <i class="fa fa-edit" ng-show="currentUser.role == 'super_admin'" ng-click="unit.edit = true"></i>
+                    <i class="fa fa-times" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)"></i>
                   </td>
                 </tr>
               </tbody>

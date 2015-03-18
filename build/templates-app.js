@@ -68,20 +68,28 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
   $templateCache.put("dashboard/dashboard.tpl.html",
     "<div class=\"content\" ng-controller=\"DashboardCtrl as dashboardCtrl\">\n" +
     "  <div class=\"row\">\n" +
-    "    <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12\">\n" +
+    "    <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12\" ng-show=\"currentUser.role == 'super_admin'\">\n" +
     "      <div class=\"card card-btn\" ng-click=\"dashboardCtrl.createLoad()\">\n" +
     "        <div class=\"card-content\">\n" +
     "          <h2>New Load</h2>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{ 'col-lg-9': load.open, 'col-lg-3': !load.open }\">\n" +
-    "      <div class=\"card\">\n" +
-    "        <i class=\"fa fa-times\" ng-click=\"dashboardCtrl.deleteLoad(load.date, load.id, $index)\"></i>\n" +
-    "        <div class=\"card-content\" ng-class=\"{ 'open': load.open}\">\n" +
-    "          <h2 ng-click=\"load.open = !load.open\">{{load.date}}'s Load</h2>\n" +
+    "  </div>\n" +
+    "  <div class=\"row\">\n" +
+    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{ 'col-lg-9 col-md-8 col-sm-12': load.open, 'col-lg-3 col-md-4 col-sm-6': !load.open }\">\n" +
+    "      <div class=\"card\" back-img=\"{{load.images[0]}}\">\n" +
+    "\n" +
+    "        <div class=\"card-content\" ng-class=\"{'open':load.open}\">\n" +
+    "          <div class=\"card-action-bar\">\n" +
+    "            <i class=\"fa fa-arrow-right pull-left\"></i>\n" +
+    "            <i class=\"fa fa-times pull-right\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteLoad(load.date, load.id, $index)\"></i>\n" +
+    "            <i class=\"fa fa-edit pull-right\"></i>\n" +
+    "            <p ng-click=\"load.open = !load.open\">{{load.date}}'s Load</p>\n" +
+    "          </div>\n" +
     "          <div class=\"card-flip\" ng-show=\"load.open\">\n" +
     "            <form ng-show=\"load.create\" role=\"form\" name=\"CreateUnitForm\" ng-submit=\"dashboardCtrl.createUnit(dashboardCtrl.load.unit, $index, CreateUnitForm)\" novalidate>\n" +
+    "              <h3>Create a new Unit</h3>\n" +
     "              <!-- Tag Number -->\n" +
     "              <div class=\"form-group has-feedback\" showError>\n" +
     "                <label for=\"tag_number\">Tag Number</label>\n" +
@@ -141,9 +149,12 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "              <!-- Cancel Button -->\n" +
     "              <button type=\"button\" class=\"pull-right btn btn-default\" ng-click=\"dashboardCtrl.resetForm(CreateUnitForm, $index)\">Cancel</button>\n" +
     "            </form>\n" +
-    "            <p ng-show=\"!load.create && load.units.length == 0\"><strong>This load doesn't have any units! Why don't you make one?</strong>\n" +
+    "            <p ng-show=\"!load.create && load.units.length == 0 && currentUser.role == 'super_admin'\"><strong>This load doesn't have any units! Why don't you make one?</strong>\n" +
     "            </p>\n" +
-    "            <button ng-show=\"!load.create\" class=\"btn btn-default\" ng-click=\"load.create = !load.create\">Create Unit</button>\n" +
+    "            <p ng-show=\"!load.create && load.units.length == 0 && currentUser.role == 'user'\"><strong>This load doesn't have any units!</strong>\n" +
+    "            </p>\n" +
+    "\n" +
+    "            <button ng-show=\"!load.create && currentUser.role == 'super_admin'\" class=\"btn btn-default\" ng-click=\"load.create = !load.create\">Create Unit</button>\n" +
     "            <table ng-show=\"!load.create && load.units.length > 0\" class=\"table table-striped\">\n" +
     "              <thead>\n" +
     "                <tr>\n" +
@@ -169,8 +180,8 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "                  <td>{{unit.tare}}</td>\n" +
     "                  <td>{{unit.comments}}</td>\n" +
     "                  <td>\n" +
-    "                    <i class=\"fa fa-edit\" ng-click=\"dashboardCtrl.editUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
-    "                    <i class=\"fa fa-times\" ng-click=\"dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
+    "                    <i class=\"fa fa-edit\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"unit.edit = true\"></i>\n" +
+    "                    <i class=\"fa fa-times\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
     "                  </td>\n" +
     "                </tr>\n" +
     "              </tbody>\n" +
@@ -230,7 +241,7 @@ angular.module("navbar/navbar.tpl.html", []).run(["$templateCache", function($te
     "    <li class=\"pull-right\">\n" +
     "      <a ui-sref=\"currentAccount\">{{currentUser.email}}</a>\n" +
     "    </li>\n" +
-    "    <li ng-show=\"currentUser.role == 2\" ui-sref-active-eq=\"active\" class=\"pull-right\">\n" +
+    "    <li ng-show=\"currentUser.role == 'super_admin'\" ui-sref-active-eq=\"active\" class=\"pull-right\">\n" +
     "      <a ui-sref=\"accounts\">Accounts</a>\n" +
     "    </li>\n" +
     "    <li ui-sref-active-eq=\"active\" class=\"pull-right\">\n" +

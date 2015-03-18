@@ -7,28 +7,42 @@
     position: relative;
     overflow-y: hidden;
     .card-content {
+        width: 100%;
         position: relative;
-        margin: 0 10px;
-        margin-top: 40%;
         h2 {
             text-align: center;
-            margin: 0;
-            cursor: pointer;
+            margin-top: 40%;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        .card-action-bar {
+            border-bottom: solid 1px black;
+            background-color: white;
+            i {
+                padding: 13px 10px;
+                margin: 0;
+            }
+            i.pull-left {
+                border-right: solid 1px black;
+            }
+            i.pull-right {
+                border-left: solid 1px black;
+            }
+            p {
+                padding: 10px;
+                display: inline-block;
+                text-align: center;
+                cursor: pointer;
+                margin: 0;
+            }
         }
         .card-flip {
             margin-top: 20px;
             table {
                 margin-top: 20px;
-                i {
-                    margin-right: 10px;
-                }
             }
         }
-    }
-    >i {
-        position: absolute;
-        right: 10px;
-        top: 10px;
     }
     .card-content.open {
         margin-top: 20px;

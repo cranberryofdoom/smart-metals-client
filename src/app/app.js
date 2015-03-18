@@ -10,7 +10,10 @@ angular.module('SmartMetals', [
   'ui.router',
   'restangular',
   'formValidation',
-  'authentication'
+  'authentication',
+  'backImg',
+  'SmartMetals.image',
+  'SmartMetals.load'
 ])
 
 // Set the baseURL to direct it to where it should be
@@ -76,9 +79,9 @@ angular.module('SmartMetals', [
     }
   })
   .controller('AppCtrl', function AppCtrl($scope, $rootScope, $state, $window, Restangular, Authentication) {
-
-    // Change the page title to the respective page
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+
+      // Change the page title to the respective page
       if (angular.isDefined(toState.data.pageTitle)) {
         $scope.pageTitle = toState.data.pageTitle + ' | SmartMetals';
       }

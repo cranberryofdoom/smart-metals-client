@@ -1,7 +1,7 @@
-5W4G Admin
-===========
+Smart Metals Client
+===================
 
-The client-side code for 5W4G.com Administration Dashboard
+The client-side code for the Smart Metals Web Client
 
 
 Getting Up and Running

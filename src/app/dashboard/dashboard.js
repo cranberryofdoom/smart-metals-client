@@ -4,11 +4,12 @@ angular.module('SmartMetals.dashboard', [
     'formValidation',
     'authentication'
   ])
-  .controller('DashboardCtrl', function DashboardCtrl($scope, $rootScope, $state, Restangular, ServerErrors, Authentication) {
+  .controller('DashboardCtrl', function DashboardCtrl($scope, $rootScope, $state, Restangular, ServerErrors, Authentication, Image, Load) {
     // Intitalize default models
     var defaultLoad = {};
     var defaultUnit = {};
     var dashboardCtrl = this;
+
     var account;
     dashboardCtrl.load = angular.copy(defaultLoad);
     dashboardCtrl.unit = angular.copy(defaultUnit);
@@ -25,14 +26,8 @@ angular.module('SmartMetals.dashboard', [
     function getLoadsAndUnits(accountId) {
       account = Restangular.one('accounts', accountId);
       // Get all loads and units for each load
-      account.getList('loads').then(function(res) {
+      Load.getLoads(account).then(function(res) {
         dashboardCtrl.loads = res;
-        // Get all units for each loads
-        for (var i = 0; i < dashboardCtrl.loads.length; i++) {
-          dashboardCtrl.loads[i].open = false;
-          dashboardCtrl.loads[i].create = false;
-          dashboardCtrl.loads[i].units = dashboardCtrl.loads[i].getList('units').$object;
-        }
       }, function(res) {
         $rootScope.$broadcast('ALERT', {
           type: "danger",
@@ -109,5 +104,10 @@ angular.module('SmartMetals.dashboard', [
       }, function(res) {
         ServerErrors.inlineErrors(res, null);
       });
+    };
+
+    // Edit a new unit
+    dashboardCtrl.editUnit = function() {
+
     };
   });

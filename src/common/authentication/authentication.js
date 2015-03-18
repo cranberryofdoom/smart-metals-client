@@ -6,7 +6,7 @@ angular.module('authentication', [
 
     // Sends off the actual HTTP request to get
     // a current user with a given token and returns
-    // a promise
+    // a promise.
     function getCurrentUser(token) {
       return Restangular.one('users').customGET('current', {
         token: token
@@ -23,13 +23,13 @@ angular.module('authentication', [
         });
     }
 
-    // A helper to set the current user
+    // A helper to set the current user.
     function setCurrentUser(user) {
       $rootScope.currentUser = user;
     }
 
     // A helper to set all things related to the token
-    // once it is retrieved
+    // once it is retrieved.
     function setToken(token) {
       $rootScope.token = token;
       Restangular.setDefaultRequestParams({
@@ -47,13 +47,13 @@ angular.module('authentication', [
       },
 
       // Sends off the actual HTTP request to log the
-      // user in and returns a promise
+      // user in and returns a promise.
       logInUser: function(user) {
         return Restangular.all('auth/login').post(user).then(
 
           // The log in is successful. Save the token, set
           // Restangular to start sending all requests with
-          // the token and use it to get the user information
+          // the token and use it to get the user information.
           function(res) {
             $window.localStorage.token = res.token;
             setToken(res.token);
@@ -71,7 +71,7 @@ angular.module('authentication', [
       },
 
       // Sends off the actual HTTP request to log the user
-      // user out, deletes the token and returns a promise
+      // user out, deletes the token and returns a promise.
       logOutUser: function() {
         return Restangular.all('auth/logout').remove({
           token: $window.localStorage.token
