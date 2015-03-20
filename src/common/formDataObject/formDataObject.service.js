@@ -5,7 +5,13 @@ angular.module('formDataObject', [])
   return function(data) {
     var fd = new FormData();
     angular.forEach(data, function(value, key) {
-      fd.append(key, value);
+      if (key == "images") {
+        for (var i = 0; i < value.length; i++) {
+          fd.append("image", value[i]);
+        }
+      } else {
+        fd.append(key, value);
+      }
     });
     return fd;
   };

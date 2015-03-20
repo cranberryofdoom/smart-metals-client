@@ -1,0 +1,61 @@
+<form ng-show="load.create" role="form" name="CreateUnitForm" ng-submit="dashboardCtrl.createUnit(dashboardCtrl.load.unit, load, CreateUnitForm)" novalidate>
+  <h3>Create a new Unit</h3>
+  <!-- Tag Number -->
+  <div class="form-group has-feedback" showError>
+    <label for="tag_number">Tag Number</label>
+    <input ng-model="dashboardCtrl.load.unit.tag_number" ng-model-options="{updateOn: 'blur'}" name="tag_number" type="number" class="form-control" placeholder="Tag Number" required>
+    <icons></icons>
+    <!-- Errors -->
+    <errors>
+      <p class="text-danger" ng-show="CreateUnitForm.tag_number.$error.required">Tag Number required.</p>
+      <p class="text-danger" ng-show="CreateUnitForm.tag_number.$error.serverMessages" ng-repeat="message in CreateUnitForm.tag_number.$error.serverMessages">{{message}}</p>
+    </errors>
+  </div>
+  <!-- Product -->
+  <div class="form-group has-feedback" showError>
+    <label for="product">Product</label>
+    <input ng-model="dashboardCtrl.load.unit.product" ng-model-options="{ updateOn: 'blur' }" name="product" type="text" class="form-control" placeholder="Product" required>
+    <icons></icons>
+    <!-- Errors -->
+    <errors>
+      <p class="text-danger" ng-show="CreateUnitForm.product.$error.required">Tag Number required.</p>
+      <p class="text-danger" ng-show="CreateUnitForm.product.$error.serverMessages" ng-repeat="message in CreateUnitForm.product.$error.serverMessages">{{message}}</p>
+    </errors>
+  </div>
+  <!-- Gross Weight -->
+  <div class="form-group has-feedback" showError>
+    <label for="gross_weight">Gross Weight</label>
+    <input ng-model="dashboardCtrl.load.unit.gross_weight" ng-model-options="{ updateOn: 'blur' }" name="gross_weight" type="number" class="form-control" placeholder="Gross Weight" required>
+    <icons></icons>
+    <!-- Errors -->
+    <errors>
+      <p class="text-danger" ng-show="CreateUnitForm.gross_weight.$error.required">Gross Weight required.</p>
+      <p class="text-danger" ng-show="CreateUnitForm.gross_weight.$error.serverMessages" ng-repeat="message in CreateUnitForm.gross_weight.$error.serverMessages">{{message}}</p>
+    </errors>
+  </div>
+  <!-- Tare -->
+  <div class="form-group has-feedback" showError>
+    <label for="product">Tare</label>
+    <input ng-model="dashboardCtrl.load.unit.tare" ng-model-options="{ updateOn: 'blur' }" name="tare" type="number" class="form-control" placeholder="Tare" required>
+    <icons></icons>
+    <!-- Errors -->
+    <errors>
+      <p class="text-danger" ng-show="CreateUnitForm.tare.$error.required">Tare required.</p>
+      <p class="text-danger" ng-show="CreateUnitForm.tare.$error.serverMessages" ng-repeat="message in CreateUnitForm.tare.$error.serverMessages">{{message}}</p>
+    </errors>
+  </div>
+  <!-- Comments -->
+  <div class="form-group has-feedback" showError>
+    <label for="comments">Comments</label>
+    <input ng-model="dashboardCtrl.load.unit.comments" ng-model-options="{ updateOn: 'blur' }" name="comments" type="text" class="form-control" placeholder="Comments">
+    <icons></icons>
+    <!-- Errors -->
+    <errors>
+      <p class="text-danger" ng-show="CreateUnitForm.comments.$error.serverMessages" ng-repeat="message in CreateUnitForm.comments.$error.serverMessages">{{message}}</p>
+    </errors>
+  </div>
+  <!-- Submit Button -->
+  <button type="submit" class="pull-left btn btn-default">Submit</button>
+  <!-- Cancel Button -->
+  <button type="button" class="pull-right btn btn-default" ng-click="dashboardCtrl.resetForm(CreateUnitForm, $index)">Cancel</button>
+</form>

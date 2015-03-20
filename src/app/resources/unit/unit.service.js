@@ -3,12 +3,17 @@ angular.module('SmartMetals.unit', [
     'ui.router'
   ])
   .service('Unit', function(Restangular, $rootScope, $state) {
-    var units = [];
-
     return {
       getUnits: function(load) {
         return load.getList('units').then(function(res) {
-          units = res;
+          return res;
+        }, function(error) {
+          throw error;
+        });
+      },
+      createUnit: function(unit, load) {
+        return load.post("units", unit).then(function(res) {
+          return res;
         }, function(error) {
           throw error;
         });

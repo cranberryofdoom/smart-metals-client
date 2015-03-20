@@ -5908,7 +5908,7 @@ nav ul.nav-pills li.active a:focus {
   margin: 20px auto;
   border: 1px solid #545454;
   position: relative;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 .card .card-content {
   width: 100%;
@@ -5916,10 +5916,13 @@ nav ul.nav-pills li.active a:focus {
 }
 .card .card-content h2 {
   text-align: center;
-  margin-top: 40%;
+  margin-top: 45%;
 }
 .card .card-content h2:hover {
   cursor: pointer;
+}
+.card .card-content form {
+  padding: 20px;
 }
 .card .card-content .card-action-bar {
   border-bottom: solid 1px black;
@@ -5928,6 +5931,7 @@ nav ul.nav-pills li.active a:focus {
 .card .card-content .card-action-bar i {
   padding: 13px 10px;
   margin: 0;
+  cursor: pointer;
 }
 .card .card-content .card-action-bar i.pull-left {
   border-right: solid 1px black;
@@ -5943,11 +5947,11 @@ nav ul.nav-pills li.active a:focus {
   margin: 0;
 }
 .card .card-content .card-flip {
-  margin-top: 20px;
+  margin: 20px;
 }
 .card .card-content .card-flip table {
   margin-top: 20px;
 }
-.card .card-content.open {
-  margin-top: 20px;
+.card .card-content .card-flip form {
+  padding: 0;
 }

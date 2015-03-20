@@ -2,9 +2,13 @@ angular.module('SmartMetals.dashboard', [
     'ui.router',
     'restangular',
     'formValidation',
-    'authentication'
+    'authentication',
+    'SmartMetals.dashboard.createImageForm',
+    'SmartMetals.dashboard.createUnitForm',
+    'SmartMetals.dashboard.showUnits',
+    'SmartMetals.dashboard.card'
   ])
-  .controller('DashboardCtrl', function DashboardCtrl($scope, $rootScope, $state, Restangular, ServerErrors, Authentication, Image, Load) {
+  .controller('DashboardCtrl', function DashboardCtrl($scope, $rootScope, $state, Restangular, ServerErrors, Authentication, Image, Load, Unit) {
     // Intitalize default models
     var defaultLoad = {};
     var defaultUnit = {};
@@ -45,52 +49,57 @@ angular.module('SmartMetals.dashboard', [
 
     // Create a new load
     dashboardCtrl.createLoad = function() {
-      var date = new Date();
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      var day = date.getDate();
-      dashboardCtrl.loads.post({
-        date: year + "-" + month + "-" + day
-      }).then(function(res) {
+      Load.createLoad(dashboardCtrl.loads).then(function(res) {
         dashboardCtrl.loads.push(res);
         $rootScope.$broadcast('ALERT', {
           type: "success",
           message: res.date + "'s load successfully created."
         });
-      }, function(res) {
-        ServerErrors.inlineErrors(res, null);
+      }, function(error) {
+        ServerErrors.inlineErrors(error, null);
       });
+    };
 
+    // Delete a load
+    dashboardCtrl.deleteLoad = function(load, index) {
+      Load.deleteLoad(load).then(function(res) {
+        dashboardCtrl.loads.splice(index, 1);
+        $rootScope.$broadcast('ALERT', {
+          type: "success",
+          message: load.date + "'s load successfully deleted."
+        });
+      }, function(error) {
+        ServerErrors.inlineErrors(error, null);
+      });
+    };
+
+    dashboardCtrl.showUnits = function(load) {
+      load.open = !load.open;
+      Unit.getUnits(load).then(function(res) {
+        load.units = res;
+      }, function(error) {
+        $rootScope.$broadcast('ALERT', {
+          type: "danger",
+          message: "Failed to get the loads for this account."
+        });
+      });
     };
 
     // Create a new unit
-    dashboardCtrl.createUnit = function(unit, index, form) {
+    dashboardCtrl.createUnit = function(unit, load, form) {
       // Check if form is valid first
       if (form.$valid) {
-        dashboardCtrl.loads[index].post("units", unit).then(function(res) {
-          dashboardCtrl.loads[index].units.push(res);
-          dashboardCtrl.loads[index].create = false;
+        Unit.createUnit(unit, load).then(function(res) {
+          load.units.push(res);
+          load.create = false;
           $rootScope.$broadcast('ALERT', {
             type: "success",
             message: "Unit " + res.tag_number + " successfully created."
           });
-        }, function(res) {
-          ServerErrors.inlineErrors(res, form);
+        }, function(error) {
+          ServerErrors.inlineErrors(error, form);
         });
       }
-    };
-
-    // Delete a load
-    dashboardCtrl.deleteLoad = function(date, loadId, index) {
-      dashboardCtrl.loads[index].remove().then(function(res) {
-        dashboardCtrl.loads.splice(index, 1);
-        $rootScope.$broadcast('ALERT', {
-          type: "success",
-          message: date + "'s load successfully deleted."
-        });
-      }, function(res) {
-        ServerErrors.inlineErrors(res, null);
-      });
     };
 
     // Delete a unit
@@ -101,13 +110,36 @@ angular.module('SmartMetals.dashboard', [
           type: "success",
           message: "Unit " + tag_number + " successfully deleted."
         });
-      }, function(res) {
-        ServerErrors.inlineErrors(res, null);
+      }, function(error) {
+        ServerErrors.inlineErrors(error, null);
       });
     };
 
-    // Edit a new unit
+    // Edit a unit
     dashboardCtrl.editUnit = function() {
 
+    };
+
+    // When a image file is selected, manually
+    // update the item model
+    $scope.chooseImageFile = function(element) {
+      var index = angular.element(element).scope().$index;
+      if (index !== undefined) {
+        for (var i = 0; i < element.files.length; i++) {
+          dashboardCtrl.loads[index].images.push(element.files[i]);
+        }
+      } else {}
+    };
+
+    dashboardCtrl.createImage = function(load, form) {
+      Image.createImage(load).then(function(res) {
+        // TODO: Add the response image url to the load object.
+        $rootScope.$broadcast('ALERT', {
+          type: "success",
+          message: res.image_file_name + " successfully uploaded."
+        });
+      }, function(error) {
+        ServerErrors.inlineErrors(error, form);
+      });
     };
   });

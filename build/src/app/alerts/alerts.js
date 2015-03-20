@@ -1,6 +1,5 @@
 angular.module('SmartMetals.alerts', [
   'ui.router',
-  'plusOne',
   'ui.bootstrap'
 ])
 

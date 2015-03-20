@@ -10,10 +10,12 @@ angular.module('SmartMetals', [
   'ui.router',
   'restangular',
   'formValidation',
+  'formDataObject',
   'authentication',
   'backImg',
   'SmartMetals.image',
-  'SmartMetals.load'
+  'SmartMetals.load',
+  'SmartMetals.unit'
 ])
 
 // Set the baseURL to direct it to where it should be

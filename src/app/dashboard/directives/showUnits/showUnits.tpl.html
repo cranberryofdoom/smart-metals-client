@@ -1,0 +1,31 @@
+<table ng-show="!load.create && load.units.length > 0" class="table table-striped">
+  <thead>
+    <tr>
+      <td><strong>Unit Tag Number</strong>
+      </td>
+      <td><strong>Product</strong>
+      </td>
+      <td><strong>Gross Weight</strong>
+      </td>
+      <td><strong>Tare</strong>
+      </td>
+      <td><strong>Comments</strong>
+      </td>
+      <td><strong>Actions</strong>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="unit in load.units" ng-show="load.open">
+      <td>{{unit.tag_number}}</td>
+      <td>{{unit.product}}</td>
+      <td>{{unit.gross_weight}}</td>
+      <td>{{unit.tare}}</td>
+      <td>{{unit.comments}}</td>
+      <td>
+        <i class="fa fa-edit" ng-show="currentUser.role == 'super_admin'" ng-click="unit.edit = true"></i>
+        <i class="fa fa-times" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>

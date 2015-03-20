@@ -1,0 +1,20 @@
+<div class="card" back-img="{{load.images[0]}}">
+  <div class="card-content" ng-class="{'open':load.open}">
+    <div class="card-action-bar">
+      <i ng-click=" dashboardCtrl.showUnits(load)" class="fa fa-arrow-right pull-left" ng-class="{'fa-arrow-left':load.open, 'fa-arrow-right':!load.open}"></i>
+      <i class="fa fa-times pull-right" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteLoad(load, $index)"></i>
+      <i class="fa fa-edit pull-right" ng-show="currentUser.role == 'super_admin'"></i>
+      <p ng-click="dashboardCtrl.showUnits(load)">{{load.date}}'s Load</p>
+    </div>
+    <create-image-form></create-image-form>
+    <div class="card-flip" ng-show="load.open">
+      <create-unit-form></create-unit-form>
+      <p ng-show="!load.create && load.units.length == 0 && currentUser.role == 'super_admin'"><strong>This load doesn't have any units! Why don't you make one?</strong>
+      </p>
+      <p ng-show="!load.create && load.units.length == 0 && currentUser.role == 'user'"><strong>This load doesn't have any units!</strong>
+      </p>
+      <button ng-show="!load.create && currentUser.role == 'super_admin'" class="btn btn-default" ng-click="load.create = !load.create">Create Unit</button>
+      <show-units></show-units>
+    </div>
+  </div>
+</div>

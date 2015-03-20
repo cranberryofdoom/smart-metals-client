@@ -2,19 +2,11 @@ angular.module('SmartMetals.image', [
     'restangular',
     'ui.router'
   ])
-  .service('Image', function(Restangular, $rootScope, $state) {
+  .service('Image', function(Restangular, $rootScope, $state, FormDataObject) {
 
     var imageURLs = [];
     var mediumImageURLs = [];
     var thumbnailImageURLs = [];
-
-    function getImage(load, image) {
-      return load.one('images', image).get().then(function(res) {
-        return res;
-      }, function(error) {
-        throw error;
-      });
-    }
 
     function getImages(load) {
       return load.getList('images').then(function(res) {
@@ -39,29 +31,44 @@ angular.module('SmartMetals.image', [
         });
       },
 
-      getMediumImageURLs: function(load) {
+      getMediumImagesURLs: function(load) {
         return getImages(load).then(function(res) {
+          imageURLs.length = 0;
           if (res.length > 0) {
-            console.log(res.length);
             for (var i = 0; i < res.length; i++) {
-              imageURLs.push(res[i].original_url);
+              imageURLs.push(res[i].medium_url);
             }
           }
-
           return imageURLs;
         }, function(error) {
           throw error;
         });
       },
 
-      getImageURL: function(user) {
-        return true;
+      getThumbImagesURLs: function() {
+        return getImages(load).then(function(res) {
+          imageURLs.length = 0;
+          if (res.length > 0) {
+            for (var i = 0; i < res.length; i++) {
+              imageURLs.push(res[i].thumb_url);
+            }
+          }
+          return imageURLs;
+        }, function(error) {
+          throw error;
+        });
       },
-      getMediumImageURL: function() {
-        return true;
-      },
-      getThumbnailImageURL: function() {
-        return true;
+
+      createImage: function(load) {
+        return load.withHttpConfig({
+          transformRequest: FormDataObject
+        }).customPOST(load, "images", null, {
+          'Content-Type': undefined
+        }).then(function(res) {
+          return res;
+        }, function(error) {
+          throw error;
+        });
       }
     };
   });

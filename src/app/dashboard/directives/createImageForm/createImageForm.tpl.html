@@ -1,0 +1,7 @@
+<form ng-submit="dashboardCtrl.createImage(load, CreateImageForm)" role="form" name="CreateImageForm" ng-show="!load.open && load.images.length == 0">
+  <div class="form-group">
+    <label for="image">This load doesn't have any images! Why don't you upload some?</label>
+    <input name="files" type="file" multiple="multiple" onchange="angular.element(this).parent().scope().chooseImageFile(this)">
+  </div>
+  <button type="submit" class="pull-left btn btn-default">Upload</button>
+</form>
