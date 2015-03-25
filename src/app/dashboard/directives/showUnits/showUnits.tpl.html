@@ -17,13 +17,59 @@
   </thead>
   <tbody>
     <tr ng-repeat="unit in load.units" ng-show="load.open">
-      <td>{{unit.tag_number}}</td>
-      <td>{{unit.product}}</td>
-      <td>{{unit.gross_weight}}</td>
-      <td>{{unit.tare}}</td>
-      <td>{{unit.comments}}</td>
       <td>
-        <i class="fa fa-edit" ng-show="currentUser.role == 'super_admin'" ng-click="unit.edit = true"></i>
+        <div ng-show="unit.edit" class="form-group has-feedback" showError>
+          <input class="form-control" type="number" ng-model="unit.tag_number">
+          <icons></icons>
+        </div>
+        <div ng-hide="unit.edit">
+          {{unit.tag_number}}
+        </div>
+      </td>
+      <td>
+        <div ng-show="unit.edit" class="form-group has-feedback" showError>
+          <input class="form-control" type="text" ng-model="unit.product">
+          <icons></icons>
+        </div>
+        <div ng-hide="unit.edit">
+          {{unit.product}}
+        </div>
+      </td>
+      <td>
+        <div ng-show="unit.edit" class="form-group has-feedback" showError>
+          <div class="input-group">
+            <input class="form-control" type="number" ng-model="unit.gross_weight">
+            <icons></icons>
+            <span class="input-group-addon">lbs</span>
+          </div>
+        </div>
+        <div ng-hide="unit.edit">
+          {{unit.gross_weight}}
+        </div>
+      </td>
+      <td>
+        <div ng-show="unit.edit" class="form-group has-feedback" showError>
+          <div class="input-group">
+            <input class="form-control" type="number" ng-model="unit.tare">
+            <icons></icons>
+            <span class="input-group-addon">lbs</span>
+          </div>
+        </div>
+        <div ng-hide="unit.edit">
+          {{unit.tare}}
+        </div>
+      </td>
+      <td>
+        <div ng-show="unit.edit" class="form-group has-feedback" showError>
+          <input class="form-control" type="text" ng-model="unit.comments">
+          <icons></icons>
+        </div>
+        <div ng-hide="unit.edit">
+          {{unit.comments}}
+        </div>
+      </td>
+      <td>
+        <i class="fa fa-edit" ng-show="currentUser.role == 'super_admin'" ng-class="{'fa-edit':!unit.edit, 'fa-check':unit.edit}" ng-click="unit.edit = !unit.edit"></i>
         <i class="fa fa-times" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)"></i>
       </td>
     </tr>

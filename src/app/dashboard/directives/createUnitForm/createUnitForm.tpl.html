@@ -18,15 +18,18 @@
     <icons></icons>
     <!-- Errors -->
     <errors>
-      <p class="text-danger" ng-show="CreateUnitForm.product.$error.required">Tag Number required.</p>
+      <p class="text-danger" ng-show="CreateUnitForm.product.$error.required">Product required.</p>
       <p class="text-danger" ng-show="CreateUnitForm.product.$error.serverMessages" ng-repeat="message in CreateUnitForm.product.$error.serverMessages">{{message}}</p>
     </errors>
   </div>
   <!-- Gross Weight -->
   <div class="form-group has-feedback" showError>
     <label for="gross_weight">Gross Weight</label>
-    <input ng-model="dashboardCtrl.load.unit.gross_weight" ng-model-options="{ updateOn: 'blur' }" name="gross_weight" type="number" class="form-control" placeholder="Gross Weight" required>
-    <icons></icons>
+    <div class="input-group">
+      <input ng-model="dashboardCtrl.load.unit.gross_weight" ng-model-options="{ updateOn: 'blur' }" name="gross_weight" type="number" class="form-control" placeholder="Gross Weight" required>
+      <icons></icons>
+      <span class="input-group-addon">lbs</span>
+    </div>
     <!-- Errors -->
     <errors>
       <p class="text-danger" ng-show="CreateUnitForm.gross_weight.$error.required">Gross Weight required.</p>
@@ -36,8 +39,11 @@
   <!-- Tare -->
   <div class="form-group has-feedback" showError>
     <label for="product">Tare</label>
-    <input ng-model="dashboardCtrl.load.unit.tare" ng-model-options="{ updateOn: 'blur' }" name="tare" type="number" class="form-control" placeholder="Tare" required>
-    <icons></icons>
+    <div class="input-group">
+      <input ng-model="dashboardCtrl.load.unit.tare" ng-model-options="{ updateOn: 'blur' }" name="tare" type="number" class="form-control" placeholder="Tare" required>
+      <icons></icons>
+      <span class="input-group-addon">lbs</span>
+    </div>
     <!-- Errors -->
     <errors>
       <p class="text-danger" ng-show="CreateUnitForm.tare.$error.required">Tare required.</p>

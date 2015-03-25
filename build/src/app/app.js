@@ -12,7 +12,6 @@ angular.module('SmartMetals', [
   'formValidation',
   'formDataObject',
   'authentication',
-  'backImg',
   'SmartMetals.image',
   'SmartMetals.load',
   'SmartMetals.unit'

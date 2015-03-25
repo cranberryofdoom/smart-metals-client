@@ -73,6 +73,10 @@ angular.module('SmartMetals.dashboard', [
       });
     };
 
+    dashboardCtrl.editLoad = function(load, index) {
+
+    };
+
     dashboardCtrl.showUnits = function(load) {
       load.open = !load.open;
       Unit.getUnits(load).then(function(res) {
@@ -133,7 +137,7 @@ angular.module('SmartMetals.dashboard', [
 
     dashboardCtrl.createImage = function(load, form) {
       Image.createImage(load).then(function(res) {
-        // TODO: Add the response image url to the load object.
+        load.imageMediumURLs.push(res.medium_url);
         $rootScope.$broadcast('ALERT', {
           type: "success",
           message: res.image_file_name + " successfully uploaded."

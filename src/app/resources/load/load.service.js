@@ -5,6 +5,19 @@ angular.module('SmartMetals.load', [
   .service('Load', function(Restangular, $q, Image) {
 
     var loads = [];
+    var defaultLoad = {
+      open: false,
+      create: false,
+      images: [],
+      imageMediumURLs: [],
+      edit: false
+    };
+
+    function addDefaultLoadProperties(load) {
+      for (var key in defaultLoad) {
+        load[key] = defaultLoad[key];
+      }
+    }
 
     return {
       getLoads: function(account) {
@@ -13,14 +26,11 @@ angular.module('SmartMetals.load', [
           // Sends off the request to get all of the loads for this account.
           function(res) {
 
-
             // Initialize the array of promises that this function
-            // will be waiting on.
+            // will be waiting on and keep track of the number of
+            // loads that we've gotten.
             var requests = [];
-
-            // Keep track of the number of loads that we've gotten.
             var numLoads = res.length;
-
 
             // Prepare each load for the view.
             loads = res;
@@ -29,8 +39,7 @@ angular.module('SmartMetals.load', [
               // Push the response into the array of loads and then insert
               // all of the necessary additional data that the view needs
               // to keep track the state.
-              loads[index].open = false;
-              loads[index].create = false;
+              addDefaultLoadProperties(loads[index]);
 
               // Send out a request to get all of the image URLs for this
               // load. Create a promise and push it into the promise array
@@ -43,9 +52,9 @@ angular.module('SmartMetals.load', [
                 // indicate that this particular promise has been resolved.
                 function(res) {
                   if (res !== undefined) {
-                    loads[index].images = [];
+                    loads[index].imageMediumURLs = [];
                     for (var i = 0; i < res.length; i++) {
-                      loads[index].images.push(res[i]);
+                      loads[index].imageMediumURLs.push(res[i]);
                     }
                     deferred.resolve(res);
                   } else {
@@ -96,6 +105,7 @@ angular.module('SmartMetals.load', [
         return loads.post({
           date: year + "-" + month + "-" + day
         }).then(function(res) {
+          addDefaultLoadProperties(res);
           return res;
         }, function(error) {
           throw error;

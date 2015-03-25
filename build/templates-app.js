@@ -78,7 +78,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "  </div>\n" +
     "  <div class=\"row\">\n" +
     "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{'col-lg-9 col-md-8 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}\">\n" +
-    "      <card></card>\n" +
+    "      <card class=\"card\"></card>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>\n" +
@@ -87,32 +87,36 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
 
 angular.module("dashboard/directives/card/card.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("dashboard/directives/card/card.tpl.html",
-    "<div class=\"card\" back-img=\"{{load.images[0]}}\">\n" +
-    "  <div class=\"card-content\" ng-class=\"{'open':load.open}\">\n" +
-    "    <div class=\"card-action-bar\">\n" +
-    "      <i ng-click=\" dashboardCtrl.showUnits(load)\" class=\"fa fa-arrow-right pull-left\" ng-class=\"{'fa-arrow-left':load.open, 'fa-arrow-right':!load.open}\"></i>\n" +
-    "      <i class=\"fa fa-times pull-right\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteLoad(load, $index)\"></i>\n" +
-    "      <i class=\"fa fa-edit pull-right\" ng-show=\"currentUser.role == 'super_admin'\"></i>\n" +
-    "      <p ng-click=\"dashboardCtrl.showUnits(load)\">{{load.date}}'s Load</p>\n" +
-    "    </div>\n" +
-    "    <create-image-form></create-image-form>\n" +
-    "    <div class=\"card-flip\" ng-show=\"load.open\">\n" +
-    "      <create-unit-form></create-unit-form>\n" +
-    "      <p ng-show=\"!load.create && load.units.length == 0 && currentUser.role == 'super_admin'\"><strong>This load doesn't have any units! Why don't you make one?</strong>\n" +
-    "      </p>\n" +
-    "      <p ng-show=\"!load.create && load.units.length == 0 && currentUser.role == 'user'\"><strong>This load doesn't have any units!</strong>\n" +
-    "      </p>\n" +
-    "      <button ng-show=\"!load.create && currentUser.role == 'super_admin'\" class=\"btn btn-default\" ng-click=\"load.create = !load.create\">Create Unit</button>\n" +
-    "      <show-units></show-units>\n" +
-    "    </div>\n" +
+    "<div class=\"card-content\" ng-class=\"{'open':load.open}\">\n" +
+    "  <div class=\"card-action-bar\">\n" +
+    "    <i ng-click=\" dashboardCtrl.showUnits(load)\" class=\"fa fa-arrow-right pull-left\" ng-class=\"{'fa-arrow-left':load.open, 'fa-arrow-right':!load.open}\"></i>\n" +
+    "    <i class=\"fa fa-times pull-right\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteLoad(load, $index)\"></i>\n" +
+    "    <i class=\"fa fa-edit pull-right\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"\"></i>\n" +
+    "    <p ng-click=\"dashboardCtrl.showUnits(load)\">{{load.date}}'s Load</p>\n" +
     "  </div>\n" +
+    "  <create-image-form></create-image-form>\n" +
+    "  <div class=\"card-flip\" ng-show=\"load.open\">\n" +
+    "    <create-unit-form></create-unit-form>\n" +
+    "    <p ng-show=\"!load.create && load.units.length == 0 && currentUser.role == 'super_admin'\"><strong>This load doesn't have any units! Why don't you make one?</strong>\n" +
+    "    </p>\n" +
+    "    <p ng-show=\"!load.create && load.units.length == 0 && currentUser.role == 'user'\"><strong>This load doesn't have any units!</strong>\n" +
+    "    </p>\n" +
+    "    <button ng-show=\"!load.create && currentUser.role == 'super_admin'\" class=\"btn btn-default\" ng-click=\"load.create = !load.create\">Create Unit</button>\n" +
+    "    <show-units></show-units>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "<div ng-if=\"load.imageMediumURLs.length > 1 && !load.open\" class=\"carousel-nav\">\n" +
+    "  <div ng-class=\"{active: show == $index}\" ng-click=\"navigate($index)\" class=\"carousel-button\" ng-repeat=\"button in load.imageMediumURLs\">\n" +
+    "  </div>\n" +
+    "  <i class=\"carousel-left fa fa-caret-left fa-lg\" ng-click=\"left(load.imageMediumURLs.length)\"></i>\n" +
+    "  <i class=\"carousel-right fa fa-caret-right fa-lg\" ng-click=\"right(load.imageMediumURLs.length)\"></i>\n" +
     "</div>\n" +
     "");
 }]);
 
 angular.module("dashboard/directives/createImageForm/createImageForm.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("dashboard/directives/createImageForm/createImageForm.tpl.html",
-    "<form ng-submit=\"dashboardCtrl.createImage(load, CreateImageForm)\" role=\"form\" name=\"CreateImageForm\" ng-show=\"!load.open && load.images.length == 0\">\n" +
+    "<form ng-submit=\"dashboardCtrl.createImage(load, CreateImageForm)\" role=\"form\" name=\"CreateImageForm\" ng-show=\"!load.open && load.imageMediumURLs.length == 0\">\n" +
     "  <div class=\"form-group\">\n" +
     "    <label for=\"image\">This load doesn't have any images! Why don't you upload some?</label>\n" +
     "    <input name=\"files\" type=\"file\" multiple=\"multiple\" onchange=\"angular.element(this).parent().scope().chooseImageFile(this)\">\n" +
@@ -144,15 +148,18 @@ angular.module("dashboard/directives/createUnitForm/createUnitForm.tpl.html", []
     "    <icons></icons>\n" +
     "    <!-- Errors -->\n" +
     "    <errors>\n" +
-    "      <p class=\"text-danger\" ng-show=\"CreateUnitForm.product.$error.required\">Tag Number required.</p>\n" +
+    "      <p class=\"text-danger\" ng-show=\"CreateUnitForm.product.$error.required\">Product required.</p>\n" +
     "      <p class=\"text-danger\" ng-show=\"CreateUnitForm.product.$error.serverMessages\" ng-repeat=\"message in CreateUnitForm.product.$error.serverMessages\">{{message}}</p>\n" +
     "    </errors>\n" +
     "  </div>\n" +
     "  <!-- Gross Weight -->\n" +
     "  <div class=\"form-group has-feedback\" showError>\n" +
     "    <label for=\"gross_weight\">Gross Weight</label>\n" +
-    "    <input ng-model=\"dashboardCtrl.load.unit.gross_weight\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"gross_weight\" type=\"number\" class=\"form-control\" placeholder=\"Gross Weight\" required>\n" +
-    "    <icons></icons>\n" +
+    "    <div class=\"input-group\">\n" +
+    "      <input ng-model=\"dashboardCtrl.load.unit.gross_weight\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"gross_weight\" type=\"number\" class=\"form-control\" placeholder=\"Gross Weight\" required>\n" +
+    "      <icons></icons>\n" +
+    "      <span class=\"input-group-addon\">lbs</span>\n" +
+    "    </div>\n" +
     "    <!-- Errors -->\n" +
     "    <errors>\n" +
     "      <p class=\"text-danger\" ng-show=\"CreateUnitForm.gross_weight.$error.required\">Gross Weight required.</p>\n" +
@@ -162,8 +169,11 @@ angular.module("dashboard/directives/createUnitForm/createUnitForm.tpl.html", []
     "  <!-- Tare -->\n" +
     "  <div class=\"form-group has-feedback\" showError>\n" +
     "    <label for=\"product\">Tare</label>\n" +
-    "    <input ng-model=\"dashboardCtrl.load.unit.tare\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"tare\" type=\"number\" class=\"form-control\" placeholder=\"Tare\" required>\n" +
-    "    <icons></icons>\n" +
+    "    <div class=\"input-group\">\n" +
+    "      <input ng-model=\"dashboardCtrl.load.unit.tare\" ng-model-options=\"{ updateOn: 'blur' }\" name=\"tare\" type=\"number\" class=\"form-control\" placeholder=\"Tare\" required>\n" +
+    "      <icons></icons>\n" +
+    "      <span class=\"input-group-addon\">lbs</span>\n" +
+    "    </div>\n" +
     "    <!-- Errors -->\n" +
     "    <errors>\n" +
     "      <p class=\"text-danger\" ng-show=\"CreateUnitForm.tare.$error.required\">Tare required.</p>\n" +
@@ -209,13 +219,59 @@ angular.module("dashboard/directives/showUnits/showUnits.tpl.html", []).run(["$t
     "  </thead>\n" +
     "  <tbody>\n" +
     "    <tr ng-repeat=\"unit in load.units\" ng-show=\"load.open\">\n" +
-    "      <td>{{unit.tag_number}}</td>\n" +
-    "      <td>{{unit.product}}</td>\n" +
-    "      <td>{{unit.gross_weight}}</td>\n" +
-    "      <td>{{unit.tare}}</td>\n" +
-    "      <td>{{unit.comments}}</td>\n" +
     "      <td>\n" +
-    "        <i class=\"fa fa-edit\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"unit.edit = true\"></i>\n" +
+    "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
+    "          <input class=\"form-control\" type=\"number\" ng-model=\"unit.tag_number\">\n" +
+    "          <icons></icons>\n" +
+    "        </div>\n" +
+    "        <div ng-hide=\"unit.edit\">\n" +
+    "          {{unit.tag_number}}\n" +
+    "        </div>\n" +
+    "      </td>\n" +
+    "      <td>\n" +
+    "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
+    "          <input class=\"form-control\" type=\"text\" ng-model=\"unit.product\">\n" +
+    "          <icons></icons>\n" +
+    "        </div>\n" +
+    "        <div ng-hide=\"unit.edit\">\n" +
+    "          {{unit.product}}\n" +
+    "        </div>\n" +
+    "      </td>\n" +
+    "      <td>\n" +
+    "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
+    "          <div class=\"input-group\">\n" +
+    "            <input class=\"form-control\" type=\"number\" ng-model=\"unit.gross_weight\">\n" +
+    "            <icons></icons>\n" +
+    "            <span class=\"input-group-addon\">lbs</span>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div ng-hide=\"unit.edit\">\n" +
+    "          {{unit.gross_weight}}\n" +
+    "        </div>\n" +
+    "      </td>\n" +
+    "      <td>\n" +
+    "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
+    "          <div class=\"input-group\">\n" +
+    "            <input class=\"form-control\" type=\"number\" ng-model=\"unit.tare\">\n" +
+    "            <icons></icons>\n" +
+    "            <span class=\"input-group-addon\">lbs</span>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div ng-hide=\"unit.edit\">\n" +
+    "          {{unit.tare}}\n" +
+    "        </div>\n" +
+    "      </td>\n" +
+    "      <td>\n" +
+    "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
+    "          <input class=\"form-control\" type=\"text\" ng-model=\"unit.comments\">\n" +
+    "          <icons></icons>\n" +
+    "        </div>\n" +
+    "        <div ng-hide=\"unit.edit\">\n" +
+    "          {{unit.comments}}\n" +
+    "        </div>\n" +
+    "      </td>\n" +
+    "      <td>\n" +
+    "        <i class=\"fa fa-edit\" ng-show=\"currentUser.role == 'super_admin'\" ng-class=\"{'fa-edit':!unit.edit, 'fa-check':unit.edit}\" ng-click=\"unit.edit = !unit.edit\"></i>\n" +
     "        <i class=\"fa fa-times\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
     "      </td>\n" +
     "    </tr>\n" +
