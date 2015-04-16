@@ -119,11 +119,6 @@ angular.module('SmartMetals.dashboard', [
       });
     };
 
-    // Edit a unit
-    dashboardCtrl.editUnit = function() {
-
-    };
-
     // When a image file is selected, manually
     // update the item model
     $scope.chooseImageFile = function(element) {

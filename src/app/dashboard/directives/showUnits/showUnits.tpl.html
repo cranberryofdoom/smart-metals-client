@@ -1,23 +1,23 @@
 <table ng-show="!load.create && load.units.length > 0" class="table table-striped">
   <thead>
     <tr>
-      <td><strong>Unit Tag Number</strong>
+      <td class="col-xs-2"><strong>Unit Tag Number</strong>
       </td>
-      <td><strong>Product</strong>
+      <td class="col-xs-3"><strong>Product</strong>
       </td>
-      <td><strong>Gross Weight</strong>
+      <td class="col-xs-2"><strong>Gross Weight</strong>
       </td>
-      <td><strong>Tare</strong>
+      <td class="col-xs-2"><strong>Tare</strong>
       </td>
-      <td><strong>Comments</strong>
+      <td class="col-xs-4"><strong>Comments</strong>
       </td>
-      <td><strong>Actions</strong>
+      <td class="col-xs-2"><strong>Actions</strong>
       </td>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="unit in load.units" ng-show="load.open">
-      <td>
+      <td class="col-xs-2">
         <div ng-show="unit.edit" class="form-group has-feedback" showError>
           <input class="form-control" type="number" ng-model="unit.tag_number">
           <icons></icons>
@@ -26,7 +26,7 @@
           {{unit.tag_number}}
         </div>
       </td>
-      <td>
+      <td class="col-xs-3">
         <div ng-show="unit.edit" class="form-group has-feedback" showError>
           <input class="form-control" type="text" ng-model="unit.product">
           <icons></icons>
@@ -35,7 +35,7 @@
           {{unit.product}}
         </div>
       </td>
-      <td>
+      <td class="col-xs-2">
         <div ng-show="unit.edit" class="form-group has-feedback" showError>
           <div class="input-group">
             <input class="form-control" type="number" ng-model="unit.gross_weight">
@@ -47,7 +47,7 @@
           {{unit.gross_weight}}
         </div>
       </td>
-      <td>
+      <td class="col-xs-2">
         <div ng-show="unit.edit" class="form-group has-feedback" showError>
           <div class="input-group">
             <input class="form-control" type="number" ng-model="unit.tare">
@@ -59,7 +59,7 @@
           {{unit.tare}}
         </div>
       </td>
-      <td>
+      <td class="col-xs-4">
         <div ng-show="unit.edit" class="form-group has-feedback" showError>
           <input class="form-control" type="text" ng-model="unit.comments">
           <icons></icons>
@@ -68,9 +68,11 @@
           {{unit.comments}}
         </div>
       </td>
-      <td>
-        <i class="fa fa-edit" ng-show="currentUser.role == 'super_admin'" ng-class="{'fa-edit':!unit.edit, 'fa-check':unit.edit}" ng-click="unit.edit = !unit.edit"></i>
-        <i class="fa fa-times" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)"></i>
+      <td class="col-xs-2">
+        <div class="actions">
+          <i class="fa fa-edit" ng-show="currentUser.role == 'super_admin'" ng-class="{'fa-edit':!unit.edit, 'fa-check':unit.edit}" ng-click="unit.edit = !unit.edit"></i>
+          <i class="fa fa-times" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)"></i>
+        </div>
       </td>
     </tr>
   </tbody>

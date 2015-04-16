@@ -4,6 +4,13 @@ angular.module('SmartMetals.dashboard.showUnits', [])
       scope: true,
       restrict: 'E',
       templateUrl: 'dashboard/directives/showUnits/showUnits.tpl.html',
-      link: function($scope, iElm, iAttrs, controller) {}
+      link: function($scope, iElm, iAttrs, controller) {
+        $scope.$watch(function($scope) {
+          console.log($scope.$parent.load.units);
+          return $scope.load.unit;
+        }, function(unit) {
+          console.log(unit);
+        });
+      }
     };
   });

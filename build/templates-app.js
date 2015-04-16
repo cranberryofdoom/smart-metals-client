@@ -77,7 +77,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "    </div>\n" +
     "  </div>\n" +
     "  <div class=\"row\">\n" +
-    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{'col-lg-9 col-md-8 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}\">\n" +
+    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{'col-lg-9 col-md-12 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}\">\n" +
     "      <card class=\"card\"></card>\n" +
     "    </div>\n" +
     "  </div>\n" +
@@ -91,7 +91,7 @@ angular.module("dashboard/directives/card/card.tpl.html", []).run(["$templateCac
     "  <div class=\"card-action-bar\">\n" +
     "    <i ng-click=\" dashboardCtrl.showUnits(load)\" class=\"fa fa-arrow-right pull-left\" ng-class=\"{'fa-arrow-left':load.open, 'fa-arrow-right':!load.open}\"></i>\n" +
     "    <i class=\"fa fa-times pull-right\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteLoad(load, $index)\"></i>\n" +
-    "    <i class=\"fa fa-edit pull-right\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"\"></i>\n" +
+    "    <i class=\"fa pull-right\" ng-class=\"{'fa-edit':!load.edit, 'fa-check':load.edit}\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"load.edit = !load.edit\"></i>\n" +
     "    <p ng-click=\"dashboardCtrl.showUnits(load)\">{{load.date}}'s Load</p>\n" +
     "  </div>\n" +
     "  <create-image-form></create-image-form>\n" +
@@ -203,23 +203,23 @@ angular.module("dashboard/directives/showUnits/showUnits.tpl.html", []).run(["$t
     "<table ng-show=\"!load.create && load.units.length > 0\" class=\"table table-striped\">\n" +
     "  <thead>\n" +
     "    <tr>\n" +
-    "      <td><strong>Unit Tag Number</strong>\n" +
+    "      <td class=\"col-xs-2\"><strong>Unit Tag Number</strong>\n" +
     "      </td>\n" +
-    "      <td><strong>Product</strong>\n" +
+    "      <td class=\"col-xs-3\"><strong>Product</strong>\n" +
     "      </td>\n" +
-    "      <td><strong>Gross Weight</strong>\n" +
+    "      <td class=\"col-xs-2\"><strong>Gross Weight</strong>\n" +
     "      </td>\n" +
-    "      <td><strong>Tare</strong>\n" +
+    "      <td class=\"col-xs-2\"><strong>Tare</strong>\n" +
     "      </td>\n" +
-    "      <td><strong>Comments</strong>\n" +
+    "      <td class=\"col-xs-4\"><strong>Comments</strong>\n" +
     "      </td>\n" +
-    "      <td><strong>Actions</strong>\n" +
+    "      <td class=\"col-xs-2\"><strong>Actions</strong>\n" +
     "      </td>\n" +
     "    </tr>\n" +
     "  </thead>\n" +
     "  <tbody>\n" +
     "    <tr ng-repeat=\"unit in load.units\" ng-show=\"load.open\">\n" +
-    "      <td>\n" +
+    "      <td class=\"col-xs-2\">\n" +
     "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
     "          <input class=\"form-control\" type=\"number\" ng-model=\"unit.tag_number\">\n" +
     "          <icons></icons>\n" +
@@ -228,7 +228,7 @@ angular.module("dashboard/directives/showUnits/showUnits.tpl.html", []).run(["$t
     "          {{unit.tag_number}}\n" +
     "        </div>\n" +
     "      </td>\n" +
-    "      <td>\n" +
+    "      <td class=\"col-xs-3\">\n" +
     "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
     "          <input class=\"form-control\" type=\"text\" ng-model=\"unit.product\">\n" +
     "          <icons></icons>\n" +
@@ -237,7 +237,7 @@ angular.module("dashboard/directives/showUnits/showUnits.tpl.html", []).run(["$t
     "          {{unit.product}}\n" +
     "        </div>\n" +
     "      </td>\n" +
-    "      <td>\n" +
+    "      <td class=\"col-xs-2\">\n" +
     "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
     "          <div class=\"input-group\">\n" +
     "            <input class=\"form-control\" type=\"number\" ng-model=\"unit.gross_weight\">\n" +
@@ -249,7 +249,7 @@ angular.module("dashboard/directives/showUnits/showUnits.tpl.html", []).run(["$t
     "          {{unit.gross_weight}}\n" +
     "        </div>\n" +
     "      </td>\n" +
-    "      <td>\n" +
+    "      <td class=\"col-xs-2\">\n" +
     "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
     "          <div class=\"input-group\">\n" +
     "            <input class=\"form-control\" type=\"number\" ng-model=\"unit.tare\">\n" +
@@ -261,7 +261,7 @@ angular.module("dashboard/directives/showUnits/showUnits.tpl.html", []).run(["$t
     "          {{unit.tare}}\n" +
     "        </div>\n" +
     "      </td>\n" +
-    "      <td>\n" +
+    "      <td class=\"col-xs-4\">\n" +
     "        <div ng-show=\"unit.edit\" class=\"form-group has-feedback\" showError>\n" +
     "          <input class=\"form-control\" type=\"text\" ng-model=\"unit.comments\">\n" +
     "          <icons></icons>\n" +
@@ -270,9 +270,11 @@ angular.module("dashboard/directives/showUnits/showUnits.tpl.html", []).run(["$t
     "          {{unit.comments}}\n" +
     "        </div>\n" +
     "      </td>\n" +
-    "      <td>\n" +
-    "        <i class=\"fa fa-edit\" ng-show=\"currentUser.role == 'super_admin'\" ng-class=\"{'fa-edit':!unit.edit, 'fa-check':unit.edit}\" ng-click=\"unit.edit = !unit.edit\"></i>\n" +
-    "        <i class=\"fa fa-times\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
+    "      <td class=\"col-xs-2\">\n" +
+    "        <div class=\"actions\">\n" +
+    "          <i class=\"fa fa-edit\" ng-show=\"currentUser.role == 'super_admin'\" ng-class=\"{'fa-edit':!unit.edit, 'fa-check':unit.edit}\" ng-click=\"unit.edit = !unit.edit\"></i>\n" +
+    "          <i class=\"fa fa-times\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteUnit(unit.tag_number, unit.id, $parent.$index, $index)\"></i>\n" +
+    "        </div>\n" +
     "      </td>\n" +
     "    </tr>\n" +
     "  </tbody>\n" +
