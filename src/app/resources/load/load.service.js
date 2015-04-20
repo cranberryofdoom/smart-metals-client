@@ -8,7 +8,7 @@ angular.module('SmartMetals.load', [
     var defaultLoad = {
       open: false,
       create: false,
-      images: [],
+      "images[]": [],
       imageMediumURLs: [],
       edit: false
     };

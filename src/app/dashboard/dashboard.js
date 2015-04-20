@@ -125,7 +125,7 @@ angular.module('SmartMetals.dashboard', [
       var index = angular.element(element).scope().$index;
       if (index !== undefined) {
         for (var i = 0; i < element.files.length; i++) {
-          dashboardCtrl.loads[index].images.push(element.files[i]);
+          dashboardCtrl.loads[index]["images[]"].push(element.files[i]);
         }
       } else {}
     };

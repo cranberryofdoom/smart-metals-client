@@ -77,6 +77,8 @@ angular.module('SmartMetals', [
           delete $window.localStorage.token;
           $rootScope.token = $window.localStorage.token;
         });
+    } else {
+      $state.go('logIn');
     }
   })
   .controller('AppCtrl', function AppCtrl($scope, $rootScope, $state, $window, Restangular, Authentication) {
