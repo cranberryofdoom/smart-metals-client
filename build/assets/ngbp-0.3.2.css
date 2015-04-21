@@ -5901,7 +5901,11 @@ nav ul.nav-pills li.active a:focus {
   background-color: transparent;
   color: black;
 }
-.card {
+.card-wrapper {
+  transition: 0.4s ease;
+  transition-delay: 0.2s;
+}
+.card-wrapper .card {
   width: 100%;
   height: 0;
   display: block;
@@ -5911,58 +5915,58 @@ nav ul.nav-pills li.active a:focus {
   position: relative;
   overflow: hidden;
 }
-.card .card-content {
+.card-wrapper .card .card-content {
   width: 100%;
   position: relative;
 }
-.card .card-content h2 {
+.card-wrapper .card .card-content h2 {
   text-align: center;
   margin-top: 45%;
 }
-.card .card-content h2:hover {
+.card-wrapper .card .card-content h2:hover {
   cursor: pointer;
 }
-.card .card-content form {
+.card-wrapper .card .card-content form {
   padding: 20px;
 }
-.card .card-content .card-action-bar {
+.card-wrapper .card .card-content .card-action-bar {
   border-bottom: solid 1px black;
   background-color: white;
 }
-.card .card-content .card-action-bar i {
+.card-wrapper .card .card-content .card-action-bar i {
   padding: 13px 10px;
   margin: 0;
   cursor: pointer;
 }
-.card .card-content .card-action-bar i.pull-left {
+.card-wrapper .card .card-content .card-action-bar i.pull-left {
   border-right: solid 1px black;
 }
-.card .card-content .card-action-bar i.pull-right {
+.card-wrapper .card .card-content .card-action-bar i.pull-right {
   border-left: solid 1px black;
 }
-.card .card-content .card-action-bar p {
+.card-wrapper .card .card-content .card-action-bar p {
   padding: 10px;
   display: inline-block;
   text-align: center;
   cursor: pointer;
   margin: 0;
 }
-.card .card-content .card-flip {
+.card-wrapper .card .card-content .card-flip {
   margin: 20px;
 }
-.card .card-content .card-flip table {
+.card-wrapper .card .card-content .card-flip table {
   margin-top: 20px;
 }
-.card .card-content .card-flip table td .has-feedback input {
+.card-wrapper .card .card-content .card-flip table td .has-feedback input {
   padding-right: 34px;
 }
-.card .card-content .card-flip table td .has-feedback i {
+.card-wrapper .card .card-content .card-flip table td .has-feedback i {
   top: 0;
 }
-.card .card-content .card-flip table td .actions i {
+.card-wrapper .card .card-content .card-flip table td .actions i {
   margin-right: 5px;
 }
-.card .card-content .card-flip form {
+.card-wrapper .card .card-content .card-flip form {
   padding: 0;
 }
 .input-group i {

@@ -132,7 +132,9 @@ angular.module('SmartMetals.dashboard', [
 
     dashboardCtrl.createImage = function(load, form) {
       Image.createImage(load).then(function(res) {
-        load.imageMediumURLs.push(res.medium_url);
+        for (var i = 0; i < res.length; i++) {
+          load.imageMediumURLs.push(res[i].medium_url);
+        }
         $rootScope.$broadcast('ALERT', {
           type: "success",
           message: res.image_file_name + " successfully uploaded."

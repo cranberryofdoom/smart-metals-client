@@ -68,7 +68,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
   $templateCache.put("dashboard/dashboard.tpl.html",
     "<div class=\"content\" ng-controller=\"DashboardCtrl as dashboardCtrl\">\n" +
     "  <div class=\"row\">\n" +
-    "    <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12\" ng-show=\"currentUser.role == 'super_admin'\">\n" +
+    "    <div class=\"card-wrapper col-lg-3 col-md-4 col-sm-6 col-xs-12\" ng-show=\"currentUser.role == 'super_admin'\">\n" +
     "      <div class=\"card card-btn\" ng-click=\"dashboardCtrl.createLoad()\">\n" +
     "        <div class=\"card-content\">\n" +
     "          <h2>New Load</h2>\n" +
@@ -77,7 +77,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "    </div>\n" +
     "  </div>\n" +
     "  <div class=\"row\">\n" +
-    "    <div class=\"col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{'col-lg-9 col-md-12 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}\">\n" +
+    "    <div class=\"card-wrapper col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{'col-lg-9 col-md-12 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}\">\n" +
     "      <card class=\"card\"></card>\n" +
     "    </div>\n" +
     "  </div>\n" +

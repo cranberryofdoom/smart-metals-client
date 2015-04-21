@@ -1,6 +1,6 @@
 <div class="content" ng-controller="DashboardCtrl as dashboardCtrl">
   <div class="row">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-show="currentUser.role == 'super_admin'">
+    <div class="card-wrapper col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-show="currentUser.role == 'super_admin'">
       <div class="card card-btn" ng-click="dashboardCtrl.createLoad()">
         <div class="card-content">
           <h2>New Load</h2>
@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="load in dashboardCtrl.loads" ng-class="{'col-lg-9 col-md-12 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}">
+    <div class="card-wrapper col-md-4 col-sm-6 col-xs-12" ng-repeat="load in dashboardCtrl.loads" ng-class="{'col-lg-9 col-md-12 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}">
       <card class="card"></card>
     </div>
   </div>
