@@ -2,7 +2,7 @@ angular.module('SmartMetals.dashboard.card', [
   'ui.bootstrap'
 ])
 
-.directive('card', function() {
+.directive('card', function($timeout) {
   return {
     scope: true,
     restrict: 'E',

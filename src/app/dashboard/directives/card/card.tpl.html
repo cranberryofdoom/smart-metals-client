@@ -2,8 +2,10 @@
   <div class="card-action-bar">
     <i ng-click=" dashboardCtrl.showUnits(load)" class="fa fa-arrow-right pull-left" ng-class="{'fa-arrow-left':load.open, 'fa-arrow-right':!load.open}"></i>
     <i class="fa fa-times pull-right" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.deleteLoad(load, $index)"></i>
-    <i class="fa pull-right" ng-class="{'fa-edit':!load.edit, 'fa-check':load.edit}" ng-show="currentUser.role == 'super_admin'" ng-click="load.edit = !load.edit"></i>
-    <p ng-click="dashboardCtrl.showUnits(load)">{{load.date}}'s Load</p>
+    <i class="fa pull-right" ng-class="{'fa-edit':!load.edit, 'fa-check':load.edit}" ng-show="currentUser.role == 'super_admin'" ng-click="dashboardCtrl.editLoad(load, $index, date)"></i>
+    <p ng-show="!load.edit" ng-click="dashboardCtrl.showUnits(load)">{{load.date}}'s Load</p>
+    <input focus="load.edit" placeholder="{{load.date}}" ng-model="date" ng-show="load.edit" type="text"></input>
+    <span ng-show="load.edit">'s Load</span>
   </div>
   <create-image-form></create-image-form>
   <div class="card-flip" ng-show="load.open">

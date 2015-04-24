@@ -69,12 +69,38 @@ angular.module('SmartMetals.dashboard', [
           message: load.date + "'s load successfully deleted."
         });
       }, function(error) {
-        ServerErrors.inlineErrors(error, null);
+        $rootScope.$broadcast('ALERT', {
+          type: "danger",
+          message: "Could not create load."
+        });
       });
     };
 
-    dashboardCtrl.editLoad = function(load, index) {
-
+    dashboardCtrl.editLoad = function(load, index, date) {
+      console.log(date + " " + load.edit);
+      if (date !== undefined && load.edit === true) {
+        load.date = date;
+        Load.editLoad(load).then(function(res) {
+          if (res) {
+            dashboardCtrl.loads[index].date = date;
+            $rootScope.$broadcast('ALERT', {
+              type: "success",
+              message: "Load successfully updated to " + date + "."
+            });
+          } else {
+            $rootScope.$broadcast('ALERT', {
+              type: "danger",
+              message: "Could not edit load."
+            });
+          }
+        }, function(error) {
+          $rootScope.$broadcast('ALERT', {
+            type: "danger",
+            message: "Could not edit load."
+          });
+        });
+      }
+      load.edit = !load.edit;
     };
 
     dashboardCtrl.showUnits = function(load) {

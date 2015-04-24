@@ -110,6 +110,13 @@ angular.module('SmartMetals.load', [
         }, function(error) {
           throw error;
         });
+      },
+      editLoad: function(load) {
+        return load.put().then(function(res) {
+          return res;
+        }, function(error) {
+          throw error;
+        });
       }
     };
   });

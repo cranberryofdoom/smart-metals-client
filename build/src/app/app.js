@@ -9,6 +9,7 @@ angular.module('SmartMetals', [
   'SmartMetals.dashboard',
   'ui.router',
   'restangular',
+  'focus',
   'formValidation',
   'formDataObject',
   'authentication',

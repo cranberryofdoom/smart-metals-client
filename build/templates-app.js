@@ -78,7 +78,7 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "  </div>\n" +
     "  <div class=\"row\">\n" +
     "    <div class=\"card-wrapper col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"load in dashboardCtrl.loads\" ng-class=\"{'col-lg-9 col-md-12 col-sm-12':load.open, 'col-lg-3 col-md-4 col-sm-6':!load.open}\">\n" +
-    "      <card class=\"card\"></card>\n" +
+    "      <card class=\"card\" ng-class=\"{'flip':load.open, '':!load.open}\"></card>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>\n" +
@@ -91,8 +91,10 @@ angular.module("dashboard/directives/card/card.tpl.html", []).run(["$templateCac
     "  <div class=\"card-action-bar\">\n" +
     "    <i ng-click=\" dashboardCtrl.showUnits(load)\" class=\"fa fa-arrow-right pull-left\" ng-class=\"{'fa-arrow-left':load.open, 'fa-arrow-right':!load.open}\"></i>\n" +
     "    <i class=\"fa fa-times pull-right\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.deleteLoad(load, $index)\"></i>\n" +
-    "    <i class=\"fa pull-right\" ng-class=\"{'fa-edit':!load.edit, 'fa-check':load.edit}\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"load.edit = !load.edit\"></i>\n" +
-    "    <p ng-click=\"dashboardCtrl.showUnits(load)\">{{load.date}}'s Load</p>\n" +
+    "    <i class=\"fa pull-right\" ng-class=\"{'fa-edit':!load.edit, 'fa-check':load.edit}\" ng-show=\"currentUser.role == 'super_admin'\" ng-click=\"dashboardCtrl.editLoad(load, $index, date)\"></i>\n" +
+    "    <p ng-show=\"!load.edit\" ng-click=\"dashboardCtrl.showUnits(load)\">{{load.date}}'s Load</p>\n" +
+    "    <input focus=\"load.edit\" placeholder=\"{{load.date}}\" ng-model=\"date\" ng-show=\"load.edit\" type=\"text\"></input>\n" +
+    "    <span ng-show=\"load.edit\">'s Load</span>\n" +
     "  </div>\n" +
     "  <create-image-form></create-image-form>\n" +
     "  <div class=\"card-flip\" ng-show=\"load.open\">\n" +

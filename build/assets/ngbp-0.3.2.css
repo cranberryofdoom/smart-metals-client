@@ -5905,6 +5905,9 @@ nav ul.nav-pills li.active a:focus {
   transition: 0.4s ease;
   transition-delay: 0.2s;
 }
+.card-wrapper .card.flip {
+  overflow-y: scroll;
+}
 .card-wrapper .card {
   width: 100%;
   height: 0;
@@ -5950,6 +5953,13 @@ nav ul.nav-pills li.active a:focus {
   text-align: center;
   cursor: pointer;
   margin: 0;
+}
+.card-wrapper .card .card-content .card-action-bar input {
+  display: inline;
+  padding: 10px;
+  margin: 0;
+  border: none;
+  width: 95px;
 }
 .card-wrapper .card .card-content .card-flip {
   margin: 20px;
