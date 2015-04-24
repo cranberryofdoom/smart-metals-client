@@ -77,7 +77,6 @@ angular.module('SmartMetals.dashboard', [
     };
 
     dashboardCtrl.editLoad = function(load, index, date) {
-      console.log(date + " " + load.edit);
       if (date !== undefined && load.edit === true) {
         load.date = date;
         Load.editLoad(load).then(function(res) {
